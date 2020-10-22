@@ -1,0 +1,34 @@
+*{
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+    font-family: monospace;
+    font-weight: lighter;
+}
+
+#aboutUs{
+    line-height: 2em;
+}
+
+#login_card{
+    min-height: 60vh;
+}
+
+#login_card>div{
+    width: 50%;
+}
+
+#login_card>div>a{
+    width: 100%;
+    font-family: monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+#login_card>div>a:hover{
+    color: white;
+    box-shadow: 0px 0px 8px #00695c;
+}
+
+nav *{
+    font-weight: bold;
+}
