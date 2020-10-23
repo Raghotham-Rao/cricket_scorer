@@ -2,6 +2,7 @@
     /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
     font-family: monospace;
     font-weight: lighter;
+    letter-spacing: 1.5px;
 }
 
 #aboutUs{
@@ -31,4 +32,26 @@
 
 nav *{
     font-weight: bold;
+}
+
+li.nav-item.nav-link{
+    font-size: 1.3em;
+    border-radius: 0px;
+    font-weight: bold;
+    color: white;
+}
+
+li.nav-item.nav-link:hover{
+    cursor: pointer;
+}
+
+.auth-submit-btn{
+    display: block;
+    margin: auto;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.auth-submit-btn:hover{
+    box-shadow: 0px 0px 4px #00695c;
 }

@@ -1,0 +1,55 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+
+    <div class="row mt-5">
+        <!-- <div class="col-sm-4"></div> -->
+        <div class="col-sm-4 m-auto">
+            <div class="card" id="login_signup_form">
+                <div class="card-header p-0">
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="nav-item nav-link bg-success py-3" onclick="change_tab(1)">
+                            Login
+                        </li>
+                        <li class="nav-item nav-link bg-dark py-3" onclick="change_tab(2)">
+                            Register
+                        </li>
+                    </ul>
+                </div>
+        
+                <div class="card-body bg-dark text-light">
+                    <form action="" method="post" id="form-1">
+                        {% csrf_token %}
+                        {{form1}}
+                        <div class="mb-3 text-right">
+                            <a class="text-success" href="#">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-large bg-success text-light mb-3 auth-submit-btn">Log In</button>
+                    </form>
+
+                    <form action="/signup/" method="post" id="form-2">
+                        {% csrf_token %}
+                        {{form2}}
+                        <button type="submit" class="btn btn-large bg-success text-light mb-3 auth-submit-btn">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(() => {
+            $('input').addClass('form-control mb-3');
+            $('.helptext').css({'display': 'none'});
+            $('#form-2').css({'display': 'none'});
+        });
+
+        change_tab = (ind) => {
+            $('form').css({'display': 'none'});
+            $('#form-' + ind).css({'display': 'block'});
+            $('li.nav-item.nav-link').removeClass("bg-success").addClass('bg-dark');
+            $('li.nav-item.nav-link:nth-child(' + ind + ')').removeClass("bg-dark").addClass('bg-success');
+        }
+    </script>
+{% endblock %}
