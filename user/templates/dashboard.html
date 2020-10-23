@@ -1,0 +1,58 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+    <div class="row mt-3 ml-3 mb-0">
+        <h3 class="text-success">Hey There {{request.user}}!</h3>
+    </div>
+    <hr class="mx-3 mt-0">
+    <div class="row mx-1">
+        <div class="col-sm-3">
+            <div class="card bg-dark shadow-card">
+                <div class="card-body text-success text-justify">
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati repellat enim quaerat dicta inventore possimus, fugit voluptas molestiae dolorum iure, perspiciatis architecto maxime eius sequi quos, ex magnam dolores unde!
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae, nihil esse odio repellendus, nemo odit tempora doloremque facilis recusandae corporis asperiores iure et voluptas quibusdam doloribus mollitia quidem tempore provident.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="card border rounded my-2 shadow-card">
+                <div class="card-header text-success">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-6 col-md-6">
+                            <h4 class="mt-1">Player Pool</h4>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 text-right">
+                            <a href="#" class="btn btn-outline-success">View Players</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5>
+                        Total no of players: XXX
+                    </h5>
+                </div>
+            </div>
+
+            <div class="card border rounded my-2 shadow-card">
+                <div class="card-header text-success">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-6 col-md-6">
+                            <h4 class="mt-1"> Track Match </h4>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-6 text-right">
+                            <a href="#" class="btn btn-outline-success">New Match</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5>
+                        Total no of matches played: XXX
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

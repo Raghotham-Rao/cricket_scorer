@@ -18,18 +18,24 @@
                 </div>
         
                 <div class="card-body bg-dark text-light">
-                    <form action="" method="post" id="form-1">
+                    <form action="/login/" method="post" id="form-1">
                         {% csrf_token %}
                         {{form1}}
                         <div class="mb-3 text-right">
                             <a class="text-success" href="#">Forgot Password?</a>
                         </div>
+                        {% if request.GET.next %}
+                            <input type="hidden" name="next" value="{{request.GET.next}}">
+                        {% endif %}
                         <button type="submit" class="btn btn-large bg-success text-light mb-3 auth-submit-btn">Log In</button>
                     </form>
 
                     <form action="/signup/" method="post" id="form-2">
                         {% csrf_token %}
                         {{form2}}
+                        {% if request.GET.next %}
+                            <input type="hidden" name="next" value="{{request.GET.next}}">
+                        {% endif %}
                         <button type="submit" class="btn btn-large bg-success text-light mb-3 auth-submit-btn">Sign Up</button>
                     </form>
                 </div>
