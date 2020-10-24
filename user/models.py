@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-class Players(models.Model):
+class Player(models.Model):
     roles = [
         ('Batsman', 'Batsman'),
         ('Bowler', 'Bowler'),
@@ -21,3 +22,4 @@ class Players(models.Model):
     overs = models.FloatField(default=0.0)
     wickets = models.IntegerField(default=0)
     economy = models.FloatField(default=0.0)
+    pool_admin = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
