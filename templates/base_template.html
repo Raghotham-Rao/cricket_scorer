@@ -38,8 +38,8 @@
                         <a class="nav-link" href="/login">Sign Up</a>
                     </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-light rounded bg-dark" href="#">I am {{request.user}}</a>
+                    <li class="nav-item rounded bg-dark px-2">
+                        <a class="nav-link text-light" href="#">I am {{request.user}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout"> Logout </a>

@@ -1,0 +1,79 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+    <div class="row mt-3 mx-1 mb-0">
+        <div class="col-10">
+            <h3 class="text-success">Player Pool</h3>
+        </div>
+        <div class="col-2 text-right">
+            <button class="btn btn-outline-success" data-toggle="modal" data-target="#addPlayerModal"><small><span class="fas fa-plus"></span></small><span class="font-weight-bold d-none d-lg-inline">Add</span></button>
+        </div>
+    </div>
+    <hr class="mx-3 mt-0">
+    <div class="row mx-1">
+        <div class="col-sm-3 my-2">
+            <div class="card bg-dark shadow-card">
+                <div class="card-body text-success text-justify">
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati repellat enim quaerat dicta inventore possimus, fugit voluptas molestiae dolorum iure, perspiciatis architecto maxime eius sequi quos, ex magnam dolores unde!
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae, nihil esse odio repellendus, nemo odit tempora doloremque facilis recusandae corporis asperiores iure et voluptas quibusdam doloribus mollitia quidem tempore provident.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9 my-2">
+            <table class="table table-striped table-responsive">
+                <thead class="bg-dark text-success">
+                    <tr>
+                        <th>Sr No.</th>
+                        <th>Player Name</th>
+                        <th>Role</th>
+                        <th>Batting</th>
+                        <th>Matches</th>
+                        <th>Runs</th>
+                        <th>Strike Rate</th>
+                        <th>Bowling</th>
+                        <th>Wickets</th>
+                        <th>Economy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in '0123456789' %}
+                        <tr>
+                            {% for j in '0123456789' %}
+                                <td>Data</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal" id="addPlayerModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h4 class="text-success font-weight-bold mt-1">Add Player</h4>
+                    <button class="btn p-0 mt-2" data-dismiss="modal"><span class="fas fa-window-close text-success m-0"></span></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {{form}}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-success">Add Player</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            $('input').addClass('form-control mb-3');
+            $('select').addClass('form-control mb-3');
+        });
+    </script>
+{% endblock %}

@@ -66,3 +66,8 @@ ul.errorlist.nonfield{
 div.shadow-card{
     box-shadow: 0px 0px 2px darkgray;
 }
+
+th{
+    font-weight: bold;
+    font-size: 1.1em;
+}
