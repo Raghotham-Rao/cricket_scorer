@@ -27,4 +27,9 @@ def add_player(request):
         else:
             form = forms.AddPlayerForm()
     return redirect('user:player_pool')
-    # form.save()
+
+
+@login_required(login_url='/login/')
+def track_match(request):
+    form = forms.MatchForm()
+    return render(request, 'track_match.html', {'form': form})

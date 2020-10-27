@@ -43,7 +43,7 @@
                             <h4 class="mt-1"> Track Match </h4>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-md-6 text-right">
-                            <a href="#" class="btn btn-outline-success">New Match</a>
+                            <a href="#" class="btn btn-outline-success">View Matches</a>
                         </div>
                     </div>
                 </div>
@@ -52,6 +52,10 @@
                         Total no of matches played: XXX
                     </h5>
                 </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{% url 'user:track' %}" class="btn btn-large btn-outline-success"> <span class="fas fa-plus"></span> Track New Match</a>
             </div>
         </div>
     </div>

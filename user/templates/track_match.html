@@ -1,0 +1,112 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+
+    <div class="container" id="scorer_container">
+        <div class="row bg-dark text-success" id="score-section">
+            <div class="col-6 text-center my-2">
+                <h6 class="font-weight-bold my-2">Team X</h6>
+                <h1 class="display-4">0/0</h1>
+                <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
+            </div>
+            <div class="col-6 text-center my-2">
+                <h6 class="font-weight-bold my-2">Team X</h6>
+                <h1 class="display-4">0/0</h1>
+                <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
+            </div>
+            <!-- <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-4 text-center mt-4">
+                        <h4 class="text-center">Team X</h4>
+                        <h1 class="display-1">0/0</h1>
+                        <h6 class="font-weight-bold mt-2">Overs: 0.0</h6>
+                        <h6 class="font-weight-bold mt-2">Target: 0</h6>
+                    </div>
+                    <div class="col-sm-8">
+                        <table class="table table-dark table-responsive text-warning mt-3 ml-3">
+                            <tbody>
+                                <tr>
+                                    <td>Batsman 1</td>
+                                    <td>0(0)</td>
+                                    <td>4s:0</td>
+                                    <td>6s:0</td>
+                                    <td>s/r</td>
+                                </tr>
+                                <tr>
+                                    <td>Batsman 1</td>
+                                    <td>0(0)</td>
+                                    <td>4s:0</td>
+                                    <td>6s:0</td>
+                                    <td>s/r</td>
+                                </tr>
+                                <tr>
+                                    <td>Bowler</td>
+                                    <td>0.0</td>
+                                    <td>Runs</td>
+                                    <td>Wkts</td>
+                                    <td>Econ</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center font-weight-bold">Innings</td>
+                                </tr>
+                                <tr>
+                                    <td>4s:0</td>
+                                    <td>6s:0</td>
+                                    <td colspan="3" class="text-right">rr : 0.0</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">Equation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mt-3">
+                <div class="card bg-dark">
+                    <div class="card-header">
+                        <h4 class="font-weight-bold">Remote</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for i in '0123456' %}
+                                <div class="col">
+                                    <small class="border border-success rounded-circle text-center p-2">{{i}}</small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="modal modal-dark" id="matchModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
+                    <button class="btn p-0 mt-2" data-dismiss="modal"><span class="fas fa-window-close text-success m-0"></span></button>
+                </div>
+    
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                            {{form}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success">Add Player</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            // $('#matchModal').modal('show');
+            $('input').addClass('form-control mb-3');
+            $('select').addClass('form-control mb-3');
+        });
+    </script>
+{% endblock %}

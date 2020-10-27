@@ -71,3 +71,26 @@ th{
     font-weight: bold;
     font-size: 1.1em;
 }
+
+#score-section{
+    position: sticky;
+    top: 50px;
+}
+
+#timeline{
+    width: 200px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+@media only screen and (min-width: 768px){
+    #scorer_container{
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    #scorer_container{
+        width: 50%;
+    }
+}
