@@ -51,5 +51,22 @@ class Match(models.Model):
     pool_admin = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 
 
-# class Stat(models.Model):
-#     # 
+class ByBallStat(models.Model):
+    ball_id = models.AutoField(primary_key=True)
+    inning = models.IntegerField()
+    over = models.IntegerField()
+    ball = models.IntegerField()
+    strike = models.CharField(max_length=50, )
+    non_strike = models.CharField(max_length=50, )
+    bowler = models.CharField(max_length=50, )
+    is_wide = models.BooleanField(default=False)
+    is_no_ball = models.BooleanField(default=False)
+    batsman_runs = models.IntegerField(choices=[(i, i) for i in range(9)])
+    total_runs = models.IntegerField()
+    player_dismissed = models.CharField(max_length=50, default=None)
+    dismissal_kind = models.CharField(max_length=50, default=None, choices=[
+        ('Bowled', 'Bowled'),
+        ('Caught', 'Caught'),
+        ('Runout', 'Runout')
+    ])
+    fielder = models.CharField(max_length=50, default=None)

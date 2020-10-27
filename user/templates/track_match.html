@@ -8,76 +8,26 @@
                 <h6 class="font-weight-bold my-2">Team X</h6>
                 <h1 class="display-4">0/0</h1>
                 <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
+
             </div>
             <div class="col-6 text-center my-2">
                 <h6 class="font-weight-bold my-2">Team X</h6>
                 <h1 class="display-4">0/0</h1>
                 <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
             </div>
-            <!-- <div class="col-sm-6">
-                <div class="row">
-                    <div class="col-sm-4 text-center mt-4">
-                        <h4 class="text-center">Team X</h4>
-                        <h1 class="display-1">0/0</h1>
-                        <h6 class="font-weight-bold mt-2">Overs: 0.0</h6>
-                        <h6 class="font-weight-bold mt-2">Target: 0</h6>
+            <div class="col-12">
+                <h6 class="text-center my-2"> Need 0 runs in 0 balls</h6>
+            </div>
+            <div class="col-12 my-3">
+                <div class="card bg-dark">
+                    <div class="card-header">
+                        <h6 class="font-weight-bold text-center">Remote</h6>
                     </div>
-                    <div class="col-sm-8">
-                        <table class="table table-dark table-responsive text-warning mt-3 ml-3">
-                            <tbody>
-                                <tr>
-                                    <td>Batsman 1</td>
-                                    <td>0(0)</td>
-                                    <td>4s:0</td>
-                                    <td>6s:0</td>
-                                    <td>s/r</td>
-                                </tr>
-                                <tr>
-                                    <td>Batsman 1</td>
-                                    <td>0(0)</td>
-                                    <td>4s:0</td>
-                                    <td>6s:0</td>
-                                    <td>s/r</td>
-                                </tr>
-                                <tr>
-                                    <td>Bowler</td>
-                                    <td>0.0</td>
-                                    <td>Runs</td>
-                                    <td>Wkts</td>
-                                    <td>Econ</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="text-center font-weight-bold">Innings</td>
-                                </tr>
-                                <tr>
-                                    <td>4s:0</td>
-                                    <td>6s:0</td>
-                                    <td colspan="3" class="text-right">rr : 0.0</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5">Equation</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <form action="" method="post">{{delivery_form}}</form>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 mt-3">
-                <div class="card bg-dark">
-                    <div class="card-header">
-                        <h4 class="font-weight-bold">Remote</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            {% for i in '0123456' %}
-                                <div class="col">
-                                    <small class="border border-success rounded-circle text-center p-2">{{i}}</small>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 
@@ -92,7 +42,7 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     <div class="modal-body">
-                            {{form}}
+                            {{match_form}}
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-outline-success">Add Player</button>
@@ -105,7 +55,8 @@
     <script>
         $(document).ready(() => {
             // $('#matchModal').modal('show');
-            $('input').addClass('form-control mb-3');
+            $('input[type="text"]').addClass('form-control mb-3');
+            $('input[type="checkbox"]').addClass('form-check-input mb-3 mx-3');
             $('select').addClass('form-control mb-3');
         });
     </script>

@@ -32,4 +32,5 @@ def add_player(request):
 @login_required(login_url='/login/')
 def track_match(request):
     form = forms.MatchForm()
-    return render(request, 'track_match.html', {'form': form})
+    form2 = forms.DeliveryForm()
+    return render(request, 'track_match.html', {'match_form': form, 'delivery_form': form2})
