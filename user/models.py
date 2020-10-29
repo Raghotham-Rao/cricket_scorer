@@ -45,8 +45,8 @@ class Match(models.Model):
     )
     toss_won_by = models.CharField(choices=team_select, default='team1', max_length=10)
     batting_first = models.CharField(choices=team_select, default='team1', max_length=10)
-    team1_score = models.IntegerField()
-    team2_score = models.IntegerField()
+    team1_score = models.IntegerField(default=0)
+    team2_score = models.IntegerField(default=0)
     result = models.CharField(max_length=30)
     pool_admin = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
 

@@ -8,4 +8,5 @@ urlpatterns = [
     path('player_pool/', views.player_pool, name="player_pool"),
     path('add_player/', views.add_player, name="add_player"),
     path('track_match/', views.track_match, name="track"),
+    path('match_details/', views.match_details, name="match_details")
 ]

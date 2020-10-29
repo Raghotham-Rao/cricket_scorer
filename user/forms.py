@@ -12,8 +12,3 @@ class MatchForm(forms.ModelForm):
     class Meta:
         model = models.Match
         fields = ['overs_per_team', 'players_per_team', 'toss_won_by', 'batting_first']
-
-class DeliveryForm(forms.ModelForm):
-    class Meta:
-        model = models.ByBallStat
-        fields = ['batsman_runs', 'is_wide', 'is_no_ball']

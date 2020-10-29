@@ -1,63 +1,196 @@
-{% extends 'base_template.html' %}
+{% extends 'base_template.html' %} {% block content %} {% load static %}
 
-{% block content %}
-
-    <div class="container" id="scorer_container">
-        <div class="row bg-dark text-success" id="score-section">
-            <div class="col-6 text-center my-2">
-                <h6 class="font-weight-bold my-2">Team X</h6>
-                <h1 class="display-4">0/0</h1>
-                <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
-
-            </div>
-            <div class="col-6 text-center my-2">
-                <h6 class="font-weight-bold my-2">Team X</h6>
-                <h1 class="display-4">0/0</h1>
-                <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
-            </div>
-            <div class="col-12">
-                <h6 class="text-center my-2"> Need 0 runs in 0 balls</h6>
-            </div>
-            <div class="col-12 my-3">
-                <div class="card bg-dark">
-                    <div class="card-header">
-                        <h6 class="font-weight-bold text-center">Remote</h6>
-                    </div>
-                    <div class="card-body">
-                        <form action="" method="post">{{delivery_form}}</form>
-                    </div>
-                </div>
-            </div>
+<div class="container my-3" id="scorer_container">
+    <div class="row bg-dark text-success" id="score-section">
+        <div class="col-6 text-center my-2">
+            <h6 class="font-weight-bold my-2">Team X</h6>
+            <h1 class="display-4">0/0</h1>
+            <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
+            <table class="table table-sm table-dark text-success mt-3">
+                <tr>
+                    <th>Batsman 1</th>
+                    <th>0(0)</th>
+                </tr>
+                <tr>
+                    <th>Batsman 1</th>
+                    <th>0(0)</th>
+                </tr>
+            </table>
         </div>
-    </div>
-
-    <div class="modal modal-dark" id="matchModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-dark">
-                    <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
-                    <button class="btn p-0 mt-2" data-dismiss="modal"><span class="fas fa-window-close text-success m-0"></span></button>
+        <div class="col-6 text-center my-2">
+            <h6 class="font-weight-bold my-2">Team X</h6>
+            <h1 class="display-4">0/0</h1>
+            <h6 class="font-weight-bold my-2">Overs: 0.0</h6>
+            <table class="table table-sm table-dark text-success mt-3">
+                <tr>
+                    <th>Batsman 1</th>
+                    <th>0(0)</th>
+                </tr>
+                <tr>
+                    <th>Batsman 1</th>
+                    <th>0(0)</th>
+                </tr>
+            </table>
+        </div>
+        <div class="col-12">
+            <h6 class="text-center my-2"> Need 0 runs in 0 balls</h6>
+        </div>
+        <div class="col-12 my-3">
+            <div class="card bg-dark">
+                <div class="card-header">
+                    <h6 class="font-weight-bold text-center">Remote</h6>
                 </div>
-    
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                            {{match_form}}
+                <form action="" method="post" class="text-success">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="batsman_runs">Runs Scored</label>
+                            <select name="batsman_runs" id="batsman_runs">
+                                    {% for i in '012345678' %}
+                                        <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="form-group col">
+                                <label for="is_wide">Wide</label>
+                                <input type="checkbox" name="is_wide" id="is_wide">
+                            </div>
+                            <div class="form-group col">
+                                <label for="is_no_ball">No Ball</label>
+                                <input type="checkbox" name="is_no_ball" id="is_no_ball">
+                            </div>
+                            <div class="form-group col">
+                                <label for="is_wicket">Wicket</label>
+                                <input type="checkbox" name="is_wicket" id="is_wicket">
+                            </div>
+                        </div>
+                        <div class="form-group d-none wicket_event">
+                            <label for="dismissal_kind">Dismissal Kind</label>
+                            <select name="dismissal_kind" id="dismissal_kind">
+                                    <option value="Bowled" selected>Bowled</option>
+                                    <option value="Caught">Caught</option>
+                                    <option value="Runout">Runout</option>
+                                </select>
+                        </div>
+                        <div class="form-group d-none wicket_event">
+                            <label for="player_dismissed">Batsman Dismissed</label>
+                            <select name="player_dismissed" id="player_dismissed">
+                                    <option value="">Strike Batsman</option>
+                                    <option value="">Non Striker</option>
+                                </select>
+                        </div>
+                        <div class="form-group d-none wicket_event">
+                            <label for="player_dismissed">Bowler</label>
+                            <select name="player_dismissed" id="player_dismissed">
+                                    <option value="">Someone 1</option>
+                                    <option value="">Somepne 2</option>
+                                </select>
+                        </div>
+                        <div class="form-group d-none fielder_involved">
+                            <label for="fielder">Fielder</label>
+                            <select name="fielder" id="fielder">
+                                    <option value="">Someone</option>
+                                </select>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-success">Add Player</button>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-outline-success">Update</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        $(document).ready(() => {
-            // $('#matchModal').modal('show');
-            $('input[type="text"]').addClass('form-control mb-3');
-            $('input[type="checkbox"]').addClass('form-check-input mb-3 mx-3');
-            $('select').addClass('form-control mb-3');
-        });
-    </script>
+<div class="modal modal-dark" id="matchModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
+                <button class="btn p-0 mt-2" data-dismiss="modal"><span class="fas fa-window-close text-success m-0"></span></button>
+            </div>
+
+            <form action="" method="post" id="match-form">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {{match_form}}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-success">Start Match</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="batsmen-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-success">
+                <h4 class="font-weight-bold">Select Batsmen</h4>
+                <button class="btn" data-dismiss="modal"><span class="fas fa-window-close text-success"></span></button>
+            </div>
+            <form action="" id="batsmen-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="strike_batsman">Striker</label>
+                        <select name="strike_batsman" id="strike_batsman">
+                            {% for player in player_pool %}
+                                <option value="{{player.name}}">{{player.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="non_strike_batsman">Non Striker</label>
+                        <select name="non_strike_batsman" id="non_strike_batsman">
+                            {% for player in player_pool %}
+                                <option value="{{player.name}}">{{player.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-dark">
+                    <button type="submit" class="btn btn-outline-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="bowler-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-success">
+                <h4 class="font-weight-bold">Select Bowler</h4>
+                <button class="btn" data-dismiss="modal"><span class="fas fa-window-close text-success"></span></button>
+            </div>
+            <form action="" id="bowler-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="bowler">Bowler</label>
+                        <select name="bowler" id="strike_batsman">
+                            {% for player in player_pool %}
+                                <option value="{{player.name}}">{{player.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer bg-dark">
+                    <button type="submit" class="btn btn-outline-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('#matchModal').modal('show');
+        $('input[type="text"]').addClass('form-control mb-3');
+        $('input[type="number"]').addClass('form-control mb-3');
+        $('input[type="checkbox"]').addClass('form-check-input mb-3 mx-3');
+        $('select').addClass('form-control mb-3');
+    });
+</script>
+<script src="{% static 'scripts/update_score.js' %}"></script>
 {% endblock %}
