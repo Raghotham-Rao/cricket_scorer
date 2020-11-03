@@ -68,6 +68,7 @@ class ByBallStat(models.Model):
     dismissal_kind = models.CharField(max_length=50, default=None, choices=[
         ('Bowled', 'Bowled'),
         ('Caught', 'Caught'),
-        ('Runout', 'Runout')
+        ('Runout', 'Runout'),
+        ('Stumped', 'Stumped')
     ])
     fielder = models.CharField(max_length=50, default=None)

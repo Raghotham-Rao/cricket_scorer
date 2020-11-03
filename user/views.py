@@ -76,6 +76,8 @@ def tracker(request, match_id):
         resp_data['team2_wickets'] = balls.filter(inning=2).exclude(player_dismissed="").count()
         for key in ['team1_score', 'team2_score', 'team2_wickets', 'team1_wickets']:
             resp_data[key] = 0 if resp_data[key] is None else resp_data[key]
+    resp_data['match_length'] = models.Match.objects.filter(id=match_id).first().overs_per_team
+    resp_data['match_players'] = models.Match.objects.filter(id=match_id).first().players_per_team
     resp_data['player_pool'] = player_pool
     resp_data['match_id'] = match_id
     resp_data['status'] = status

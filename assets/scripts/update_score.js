@@ -6,7 +6,9 @@ var over = 0;
 var score = 0;
 var wickets = 0;
 var new_batsman_at = null;
-var inning = 1
+var inning = 1;
+var match_length = parseInt(getValueOfHidden("match_length"));
+var players_per_team = parseInt(getValueOfHidden("players_per_team"));
 
 function getValueOfHidden(name){
     return document.querySelector(`input[name="${name}"]`).value;
