@@ -53,6 +53,7 @@ class Match(models.Model):
 
 class ByBallStat(models.Model):
     ball_id = models.AutoField(primary_key=True)
+    match_id = models.ForeignKey(Match, default=0, on_delete=models.CASCADE)
     inning = models.IntegerField()
     over = models.IntegerField()
     ball = models.IntegerField()

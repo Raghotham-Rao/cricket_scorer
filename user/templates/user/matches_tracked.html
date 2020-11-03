@@ -1,0 +1,64 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+
+    <div class="row mt-3 mx-1 mb-0">
+        <div class="col-10">
+            <h3 class="text-success">Matches Tracked</h3>
+        </div>
+        <div class="col-2 text-right">
+            <a href="{% url 'user:match_details' %}" class="btn btn-outline-success"><small><span class="fas fa-plus"></span></small>&nbsp;<span class="font-weight-bold d-none d-lg-inline">New Match</span></a>
+        </div>
+    </div>
+    <hr class="mx-3 mt-0">
+    <div class="row mx-1">
+        <div class="col-sm-3 my-2">
+            <div class="card bg-dark shadow-card">
+                <div class="card-body text-success text-justify">
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati repellat enim quaerat dicta inventore possimus, fugit voluptas molestiae dolorum iure, perspiciatis architecto maxime eius sequi quos, ex magnam dolores unde!
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae, nihil esse odio repellendus, nemo odit tempora doloremque facilis recusandae corporis asperiores iure et voluptas quibusdam doloribus mollitia quidem tempore provident.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9 my-2">
+            <table class="table table-striped table-responsive">
+                <thead class="bg-dark text-success">
+                    <tr>
+                        <th>Id</th>
+                        <th>Overs</th>
+                        <th>Players</th>
+                        <th>Toss Won</th>
+                        <th>Bat First</th>
+                        <th>Team 1</th>
+                        <th>Team 2</th>
+                        <th>Result</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for match in matches_tracked %}
+                        <tr>
+                            <td>{{match.id}}</td>
+                            <td>{{match.overs_per_team}}</td>
+                            <td>{{match.players_per_team}}</td>
+                            <td>{{match.toss_won_by}}</td>
+                            <td>{{match.batting_first}}</td>
+                            <td>{{match.team1_score}}</td>
+                            <td>{{match.team2_score}}</td>
+                            <td>{{match.result}}</td>
+                            {% if match.result in 'In Progress' %}
+                                <td><a href="{% url 'user:track_match' match.id %}" class="btn btn-sm btn-outline-info">Continue</a></td>
+                            {% else %}
+                                <td><a href="#" class="btn btn-sm btn-outline-success">Summary</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

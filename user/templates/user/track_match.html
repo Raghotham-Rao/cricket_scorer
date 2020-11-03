@@ -1,0 +1,267 @@
+{% extends 'base_template.html' %} 
+
+{% block content %} 
+
+{% load static %}
+
+    {% if status in 'old' %}
+        <script>
+            var is_old = true;
+        </script>
+    {% else %}
+        <script>
+            var is_old = false;
+        </script>
+    {% endif %}
+
+    <div class="container my-3" id="scorer_container">
+        <div class="row bg-dark text-success" id="score-section">
+            <div class="col-6 text-center my-2">
+                <h6 class="font-weight-bold my-2">Team X</h6>
+
+                {% if status in 'new' %}
+                    <h1 class="display-4" id="tscore_1">0/0</h1>
+                    <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">0.0</span></h6>
+                {% else %}
+                    <h1 class="display-4" id="tscore_1">{{team1_score}}/{{team1_wickets}}</h1>
+                    {% if inning in '1' %}
+                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">0.0</span></h6>
+                    {% else %}
+                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">{{over}}.{{ball}}</span></h6>
+                    {% endif %}
+                {% endif %}
+
+                {% if status in 'old' %}
+                    <input type="hidden" name="batsman_at_0" value="{{strike}}">
+                    <input type="hidden" name="batsman_at_1" value="{{non_strike}}">
+                    <input type="hidden" name="bowler_now" value="{{bowler}}">
+                    <input type="hidden" name="overs_done" value="{{over}}">
+                    <input type="hidden" name="balls_done" value="{{ball}}">
+                    <input type="hidden" name="inning" value="{{inning}}">
+                    <input type="hidden" name="team1_score" value={{team1_score}}>
+                    <input type="hidden" name="team2_score" value={{team2_score}}>
+                    <input type="hidden" name="team1_wickets" value={{team1_wickets}}>
+                    <input type="hidden" name="team2_wickets" value={{team2_wickets}}>
+                {% endif %}
+                <!-- <table class="table table-sm table-dark text-success mt-3" id="current_batsmen_team1">
+                    <tr>
+                        <th id="strike_1">Batsman 1</th>
+                        <th id="sscore_1">0(0)</th>
+                    </tr>
+                    <tr>
+                        <th id="non_strike_1">Batsman 1</th>
+                        <th id="nsscore_1">0(0)</th>
+                    </tr>
+                </table>
+                <table class="table table-sm table-dark text-success mt-3" id="current_bowler_team1">
+                    <tr>
+                        <th id="bowler_1">Bowler 1</th>
+                        <th id="bfigures_1">0 / 0 (0.0)</th>
+                    </tr>
+                </table> -->
+            </div>
+            <div class="col-6 text-center my-2">
+                <h6 class="font-weight-bold my-2">Team X</h6>
+                
+                {% if status in 'new' %}
+                    <h1 class="display-4" id="tscore_2">0/0</h1>
+                    <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">0.0</span></h6>
+                {% else %}
+                    <h1 class="display-4" id="tscore_2">{{team2_score}}/{{team2_wickets}}</h1>
+                    {% if inning in '1' %}
+                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">0.0</span></h6>
+                    {% else %}
+                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">{{over}}.{{ball}}</span></h6>
+                    {% endif %}
+                {% endif %}
+                <!-- <table class="table table-sm table-dark text-success mt-3" id="current_batsmen_team2">
+                    <tr>
+                        <th id="strike_2">Batsman 1</th>
+                        <th id="sscore_2">0(0)</th>
+                    </tr>
+                    <tr>
+                        <th id="non_strike_2">Batsman 1</th>
+                        <th id="nsscore_2">0(0)</th>
+                    </tr>
+                </table>
+                <table class="table table-sm table-dark text-success mt-3" id="current_bowler_team2">
+                    <tr>
+                        <th id="bowler_2">Bowler 2</th>
+                        <th id="bfigures_2">0 / 0 (0.0)</th>
+                    </tr>
+                </table> -->
+            </div>
+            <div class="col-12">
+                <h6 class="text-center my-2"> Need 0 runs in 0 balls</h6>
+                <div class="text-center my-3">
+                    <a href="#" class="btn btn-outline-success">Match Stats</a>
+                </div>
+            </div>
+            <div class="col-12 my-3">
+                <div class="card bg-dark">
+                    <div class="card-header">
+                        <h6 class="font-weight-bold text-center">Remote</h6>
+                    </div>
+                    <form action="" method="post" class="text-success" id="scorer_form">
+                        <div class="card-body">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <input type="hidden" name="match_id" value="{{match_id}}">
+                                <label for="batsman_runs">Runs Scored</label>
+                                <select name="batsman_runs" id="batsman_runs">
+                                        {% for i in '012345678' %}
+                                            <option value="{{i}}">{{i}}</option>
+                                        {% endfor %}
+                                    </select>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group col">
+                                    <label for="is_wide">Wide</label>
+                                    <input type="checkbox" name="is_wide" id="is_wide">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="is_no_ball">No Ball</label>
+                                    <input type="checkbox" name="is_no_ball" id="is_no_ball">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="is_wicket">Wicket</label>
+                                    <input type="checkbox" name="is_wicket" id="is_wicket">
+                                </div>
+                            </div>
+                            <div class="form-group d-none wicket_event">
+                                <label for="dismissal_kind">Dismissal Kind</label>
+                                <select name="dismissal_kind" id="dismissal_kind">
+                                        <option value="Bowled" selected>Bowled</option>
+                                        <option value="Caught">Caught</option>
+                                        <option value="Runout">Runout</option>
+                                    </select>
+                            </div>
+                            <div class="form-group d-none wicket_event">
+                                <label for="player_dismissed">Batsman Dismissed</label>
+                                <select name="player_dismissed" id="player_dismissed">
+                                        <option value=0>Strike Batsman</option>
+                                        <option value=1>Non Striker</option>
+                                    </select>
+                            </div>
+                            <div class="form-group d-none wicket_event">
+                                <label for="player_dismissed">Bowler</label>
+                                <select name="player_dismissed" id="player_dismissed">
+                                        <option value="">Someone 1</option>
+                                        <option value="">Somepne 2</option>
+                                    </select>
+                            </div>
+                            <div class="form-group d-none fielder_involved">
+                                <label for="fielder">Fielder</label>
+                                <select name="fielder" id="fielder">
+                                        <option value="">Someone</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-outline-success">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="batsmen-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-success">
+                    <h4 class="font-weight-bold">Select Batsmen</h4>
+                    <button class="btn" data-dismiss="modal"><span class="fas fa-window-close text-success"></span></button>
+                </div>
+                <form action="" id="batsmen-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="strike_batsman">Striker</label>
+                            <select name="strike_batsman" id="strike_batsman">
+                                {% for player in player_pool %}
+                                    <option value="{{player.name}}">{{player.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="non_strike_batsman">Non Striker</label>
+                            <select name="non_strike_batsman" id="non_strike_batsman">
+                                {% for player in player_pool %}
+                                    <option value="{{player.name}}">{{player.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-dark">
+                        <button type="submit" class="btn btn-outline-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="new-batsman-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-success">
+                    <h4 class="font-weight-bold">Select New Batsmen</h4>
+                    <button class="btn" data-dismiss="modal"><span class="fas fa-window-close text-success"></span></button>
+                </div>
+                <form action="" id="new-batsman-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="new_batsman">Batsman</label>
+                            <select name="new_batsman" id="new_batsman">
+                                {% for player in player_pool %}
+                                    <option value="{{player.name}}">{{player.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-dark">
+                        <button type="submit" class="btn btn-outline-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="bowler-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-success">
+                    <h4 class="font-weight-bold">Select Bowler</h4>
+                    <button class="btn" data-dismiss="modal"><span class="fas fa-window-close text-success"></span></button>
+                </div>
+                <form action="" id="bowler-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="bowler">Bowler</label>
+                            <select name="bowler" id="bowler">
+                                {% for player in player_pool %}
+                                    <option value="{{player.name}}">{{player.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-dark">
+                        <button type="submit" class="btn btn-outline-success">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(() => {
+            if(!is_old){
+                $('#batsmen-modal').modal('show');
+            }
+            $('input[type="text"]').addClass('form-control mb-3');
+            $('input[type="number"]').addClass('form-control mb-3');
+            $('input[type="checkbox"]').addClass('form-check-input mb-3 mx-3');
+            $('select').addClass('form-control mb-3');
+        });
+    </script>
+    <script src="{% static 'scripts/update_score.js' %}"></script>
+    <script src="{% static 'scripts/scorer.js' %}"></script>
+{% endblock %}
