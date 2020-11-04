@@ -2,21 +2,23 @@
 
 {% block content %}
 
-    <div class="container w-50 mt-3">
-        <div class="card">
-            <div class="card-header bg-dark text-center">
-                <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
+    <div class="row">
+        <div class="col-sm-6 mt-3 mx-auto">
+            <div class="card">
+                <div class="card-header bg-dark text-center">
+                    <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
+                </div>
+    
+                <form action="" method="post" id="match-form">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        {{match_form}}
+                    </div>
+                    <div class="card-footer text-center">
+                        <button type="submit" class="btn btn-outline-success">Start Match</button>
+                    </div>
+                </form>
             </div>
-
-            <form action="" method="post" id="match-form">
-                {% csrf_token %}
-                <div class="card-body">
-                    {{match_form}}
-                </div>
-                <div class="card-footer text-center">
-                    <button type="submit" class="btn btn-outline-success">Start Match</button>
-                </div>
-            </form>
         </div>
     </div>
 

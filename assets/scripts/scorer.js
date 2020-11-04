@@ -39,7 +39,7 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
             $('#tscore_' + inning).html(score + '/' + wickets);
             $("#overs_" + inning).html(over + '.' + ball);
 
-            if(ball == 0 && !(ips['is_wide'].checked || ips['is_no_ball'].checked)){
+            if(ball == 0 && !(ips['is_wide'].checked || ips['is_no_ball'].checked) && !(over == match_length || wickets == players_per_team)){
                 $('#bowler-modal').modal('show');
             }
 
@@ -48,8 +48,18 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
                 $('#new-batsman-modal').modal('show');
             }
 
-            if(over == match_length || wickets == players_per_team){
+            if(inning == 2 && (over == match_length || wickets == players_per_team)){
+                match_completed = true;
+                $("#equation").html((score >= target)?"Team 2 Wins":"Team 1 Wins");
+            }
+
+            if(!match_completed && (over == match_length || wickets == players_per_team)){
                 inning = 2;
+                target = score + 1;
+                over = 0;
+                ball = 0;
+                wickets = 0;
+                score = 0;
                 $('#batsmen-modal').modal('show');
             }
 

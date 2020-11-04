@@ -9,6 +9,8 @@ var new_batsman_at = null;
 var inning = 1;
 var match_length = parseInt(getValueOfHidden("match_length"));
 var players_per_team = parseInt(getValueOfHidden("players_per_team"));
+var target = null;
+var match_completed = false;
 
 function getValueOfHidden(name){
     return document.querySelector(`input[name="${name}"]`).value;
@@ -28,6 +30,7 @@ if(is_old){
     else{
         score = parseInt(getValueOfHidden("team2_score"));
         wickets = parseInt(getValueOfHidden("team2_wickets"));
+        target = score + 1;
     }
 
 }
