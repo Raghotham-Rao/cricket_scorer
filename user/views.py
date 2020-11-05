@@ -4,7 +4,7 @@ from django.http import HttpResponse,HttpResponseServerError
 from . import forms,models
 from .models import Match
 import json
-from django.db.models import Sum
+from django.db.models import Sum, Count
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -17,7 +17,45 @@ def index(request):
 def player_pool(request):
     form = forms.AddPlayerForm()
     players = models.Player.objects.all().filter(pool_admin=request.user)
-    return render(request, 'user/player_pool.html', {"form": form, 'players': players})
+    names = [i['name'] for i in players.values('name')]
+    player_profiles = {player.name: {'name': player.name, 'role': player.role, 'innings': 0, 'bat_style': player.bat_style, 'bowl_style': player.bowl_style, 'runs': 0, 'balls_faced': 0, 'wickets': 0, 'balls_bowled': 0} for player in players}
+
+    for row in models.ByBallStat.objects.values('strike').annotate(Sum('batsman_runs')):
+        player_profiles[row['strike']]['runs'] = row['batsman_runs__sum'] 
+
+    for row in models.ByBallStat.objects.values('strike').annotate(Count('batsman_runs')):
+        player_profiles[row['strike']]['balls_faced'] = row['batsman_runs__count']
+
+    for row in models.ByBallStat.objects.values('strike').annotate(Sum('inning', distinct=True)):
+        player_profiles[row['strike']]['innings'] = row['inning__sum']
+    
+    for row in models.ByBallStat.objects.exclude(player_dismissed="").values('bowler').annotate(Count('player_dismissed')):
+        player_profiles[row['bowler']]['wickets'] = row['player_dismissed__count']
+
+    for row in models.ByBallStat.objects.values('bowler').annotate(Count('ball_id')):
+        player_profiles[row['bowler']]['balls_bowled'] = row['ball_id__count']
+
+    for row in models.ByBallStat.objects.values('bowler').annotate(Sum('total_runs')):
+        player_profiles[row['bowler']]['runs_conceded'] = row['total_runs__sum']
+
+    player_profiles = [player_profiles[name] for name in player_profiles]
+
+    for d in player_profiles:
+        try:
+            d['strike_rate'] = round(d['runs'] * 100 / d['balls_faced'], 2)
+            d['economy'] = round(d['runs_conceded'] / (d['balls_bowled'] / 6), 2)
+        except:
+            d['strike_rate'] = 0.0
+            d['economy'] = 0.0
+    # data = dict()
+    # data["form"] = form
+    # data["players"] = players
+    # data["player_innings"] = player_innings
+    # data["player_runs"] = player_runs
+    # data["player_balls_faced"] = player_balls_faced
+    # data['names'] = names
+    # data['player_wickets'] = player_wickets
+    return render(request, 'user/player_pool.html', {"players": players, 'profiles': player_profiles, "form": form})
 
 
 @login_required(login_url='/login/')

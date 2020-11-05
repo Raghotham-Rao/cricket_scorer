@@ -28,7 +28,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Role</th>
-                        <th>Matches</th>
+                        <th>Innings</th>
                         <th>Batting</th>
                         <th>Runs</th>
                         <th>Strike Rate</th>
@@ -38,11 +38,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for player in players %}
+                    {% for player in profiles %}
                         <tr>
                             <td>{{player.name}}</td>
                             <td>{{player.role}}</td>
-                            <td>{{player.matches}}</td>
+                            <td>{{player.innings}}</td>
                             <td>{{player.bat_style}}</td>
                             <td>{{player.runs}}</td>
                             <td>{{player.strike_rate}}</td>
