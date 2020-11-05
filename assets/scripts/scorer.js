@@ -58,12 +58,13 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
             }
 
             // wicket
-            if(ips['is_wicket'].checked){
-                new_batsman_at = document.getElementById("player_dismissed").value;
+            if(ips['is_wicket'].checked && wickets < players_per_team){
+                new_batsman_at = parseInt(document.getElementById("player_dismissed").value);
                 $('#new-batsman-modal').modal('show');
             }
 
             if(inning == 2 && score >= target){
+                match_completed = true;
                 $("#equation").html("Team 2 Wins");
             }
 
@@ -93,6 +94,10 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
                 updateEquation();
             }
 
+            if(match_completed){
+                document.getElementById("remote_container").classList.add("d-none");
+            }
+
             document.querySelectorAll(".wicket_event").forEach((elem) => {
                 elem.classList.add(['d-none']);
                 document.querySelector('.fielder_involved').classList.add('d-none');
@@ -107,6 +112,7 @@ document.querySelector("#new-batsman-form").addEventListener('submit', (event) =
     event.preventDefault();
     batsmen[new_batsman_at] = event.target["new_batsman"].value;
     $("#new-batsman-modal").modal('hide');
+    changeStrike();
 });
 
 
