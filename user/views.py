@@ -63,13 +63,20 @@ def tracker(request, match_id):
     balls = models.ByBallStat.objects.all().filter(match_id=match_id)
     status = 'new' if balls.count() == 0 else 'old'
     resp_data = dict()
+    resp_data['team1_over'] = 0
+    resp_data['team1_ball'] = 0
+    resp_data['team2_over'] = 0
+    resp_data['team2_ball'] = 0
     if status == 'old':
         resp_data['strike'] = balls.last().strike
         resp_data['non_strike'] = balls.last().non_strike
         resp_data['bowler'] = balls.last().bowler
-        resp_data['over'] = balls.last().over
-        resp_data['ball'] = balls.last().ball
         resp_data['inning'] = balls.last().inning
+        resp_data['team1_over'] = balls.filter(inning=1).last().over
+        resp_data['team1_ball'] = balls.filter(inning=1).last().ball
+        if resp_data['inning'] == 2:
+            resp_data['team2_over'] = balls.filter(inning=2).last().over
+            resp_data['team2_ball'] = balls.filter(inning=2).last().ball
         resp_data['team1_score'] = balls.filter(inning=1).aggregate(Sum('total_runs'))['total_runs__sum']
         resp_data['team2_score'] = balls.filter(inning=2).aggregate(Sum('total_runs'))['total_runs__sum']
         resp_data['team1_wickets'] = balls.filter(inning=1).exclude(player_dismissed="").count()

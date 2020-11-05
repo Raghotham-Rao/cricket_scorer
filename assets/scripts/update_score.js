@@ -11,6 +11,8 @@ var match_length = parseInt(getValueOfHidden("match_length"));
 var players_per_team = parseInt(getValueOfHidden("players_per_team"));
 var target = null;
 var match_completed = false;
+var runs_remaining = null;
+var balls_remaining = null;
 
 function getValueOfHidden(name){
     return document.querySelector(`input[name="${name}"]`).value;
@@ -20,17 +22,22 @@ if(is_old){
     batsmen[0] = getValueOfHidden("batsman_at_0");
     batsmen[1] = getValueOfHidden("batsman_at_1");
     bowler = getValueOfHidden("bowler_now");
-    ball = parseInt(getValueOfHidden("balls_done"));
-    over = parseInt(getValueOfHidden("overs_done"));
     inning = parseInt(getValueOfHidden("inning"));
     if(inning == 1){
         score = parseInt(getValueOfHidden("team1_score"));
         wickets = parseInt(getValueOfHidden("team1_wickets"));
+        ball = parseInt(getValueOfHidden("balls_done1"));
+        over = parseInt(getValueOfHidden("overs_done1"));
     }
     else{
+        ball = parseInt(getValueOfHidden("balls_done2"));
+        over = parseInt(getValueOfHidden("overs_done2"));
         score = parseInt(getValueOfHidden("team2_score"));
         wickets = parseInt(getValueOfHidden("team2_wickets"));
-        target = score + 1;
+        target = parseInt(getValueOfHidden("team1_score")) + 1;
+        runs_remaining = target - score;
+        balls_remaining = (match_length * 6) - (over * 6 + ball);
+        $("#equation").html("Need " + runs_remaining + " runs off " + balls_remaining + " balls.");
     }
 
 }
@@ -88,6 +95,7 @@ document.getElementById("batsmen-form").addEventListener("submit", (event) => {
     // document.getElementById("strike_" + innings).innerHTML = batsmen[0];
     // document.getElementById("non_strike_" + innings).innerHTML = batsmen[1];
     $('#batsmen-modal').modal('hide');
+    $("#strike_batsman").html(batsmen[0]);
     loadModal("#bowler-modal")
 });
 
@@ -98,5 +106,6 @@ document.getElementById('bowler-form').addEventListener("submit", (event) => {
     // document.getElementById("current_bowler_team1").classList.add("d-none");
     // document.getElementById("current_batsmen_team2").classList.add("d-none");
     $('#bowler-modal').modal('hide');
+    $("#current_bowler").html(bowler);
     console.log(bowler);
 })

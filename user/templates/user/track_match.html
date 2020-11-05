@@ -24,11 +24,7 @@
                     <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">0.0</span></h6>
                 {% else %}
                     <h1 class="display-4" id="tscore_1">{{team1_score}}/{{team1_wickets}}</h1>
-                    {% if inning in '1' %}
-                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">0.0</span></h6>
-                    {% else %}
-                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">{{over}}.{{ball}}</span></h6>
-                    {% endif %}
+                    <h6 class="font-weight-bold my-2">Overs: <span id="overs_1">{{team1_over}}.{{team1_ball}}</span></h6>
                 {% endif %}
                 
 
@@ -38,8 +34,10 @@
                     <input type="hidden" name="batsman_at_0" value="{{strike}}">
                     <input type="hidden" name="batsman_at_1" value="{{non_strike}}">
                     <input type="hidden" name="bowler_now" value="{{bowler}}">
-                    <input type="hidden" name="overs_done" value="{{over}}">
-                    <input type="hidden" name="balls_done" value="{{ball}}">
+                    <input type="hidden" name="overs_done1" value="{{team1_over}}">
+                    <input type="hidden" name="balls_done1" value="{{team1_ball}}">
+                    <input type="hidden" name="overs_done2" value="{{team2_over}}">
+                    <input type="hidden" name="balls_done2" value="{{team2_ball}}">
                     <input type="hidden" name="inning" value="{{inning}}">
                     <input type="hidden" name="team1_score" value={{team1_score}}>
                     <input type="hidden" name="team2_score" value={{team2_score}}>
@@ -71,11 +69,7 @@
                     <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">0.0</span></h6>
                 {% else %}
                     <h1 class="display-4" id="tscore_2">{{team2_score}}/{{team2_wickets}}</h1>
-                    {% if inning in '2' %}
-                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">0.0</span></h6>
-                    {% else %}
-                        <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">{{over}}.{{ball}}</span></h6>
-                    {% endif %}
+                    <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">{{team2_over}}.{{team2_ball}}</span></h6>
                 {% endif %}
                 <!-- <table class="table table-sm table-dark text-success mt-3" id="current_batsmen_team2">
                     <tr>
@@ -95,7 +89,15 @@
                 </table> -->
             </div>
             <div class="col-12">
-                <h6 class="text-center my-2"> Need 0 runs in 0 balls</h6>
+                <div class="row mb-4">
+                    <div class="col-5">
+                        <p class="text-center my-2">Strike : <span id="strike_batsman">{{strike}}</span>*</p>        
+                    </div>
+                    <div class="col-7">
+                        <p class="text-center my-2">Bowler : <span id="current_bowler">{{bowler}}</span> <button class="btn btn-sm btn-outline-warning p-0 px-1" id="change_bowler_btn">Change</button></p>
+                    </div>
+                </div>
+                <h6 class="text-center my-2" id="equation"> First Innings in Progress </h6>
                 <div class="text-center my-3">
                     <a href="#" class="btn btn-outline-success">Match Stats</a>
                 </div>
@@ -157,9 +159,16 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-outline-success">Update</button>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="submit" class="btn btn-outline-success">Update</button>
+                                </div>
+                                </form>
+                                <div class="col">
+                                    <button id="changeStrikeBtn" class="btn btn-outline-info">Change Strike</button>
+                                </div>
+                            </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
