@@ -5,19 +5,20 @@
         <div class="col-10">
             <h3 class="text-success">Player Pool</h3>
         </div>
-        <div class="col-2 text-right">
-            <button class="btn btn-outline-success" data-toggle="modal" data-target="#addPlayerModal"><small><span class="fas fa-plus"></span></small><span class="font-weight-bold d-none d-lg-inline">Add</span></button>
+        <div class="col-2 text-right pt-2">
+            <button class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#addPlayerModal"><small><span class="fas fa-plus"></span> </small><span class="font-weight-bold d-none d-lg-inline">Add</span></button>
         </div>
     </div>
     <hr class="mx-3 mt-0">
     <div class="row mx-1">
         <div class="col-sm-3 my-2">
             <div class="card bg-dark shadow-card">
-                <div class="card-body text-success text-justify">
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati repellat enim quaerat dicta inventore possimus, fugit voluptas molestiae dolorum iure, perspiciatis architecto maxime eius sequi quos, ex magnam dolores unde!
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae, nihil esse odio repellendus, nemo odit tempora doloremque facilis recusandae corporis asperiores iure et voluptas quibusdam doloribus mollitia quidem tempore provident.
-                    </p>
+                <div class="card-body text-success">
+                    <h6>Players in pool: {{player_count}}</h6>
+                    <h6 class="my-3">Highest Run Scorer: {{highest_run_scorer.name}}({{highest_run_scorer.runs}})</h6>
+                    <h6 class="my-3">Highest Wicket Taker: {{highest_wicket_taker.name}}({{highest_wicket_taker.wickets}})</h6>
+                    <h6 class="my-3">Best Strike Rate: {{best_strike_rate.name}}({{best_strike_rate.strike_rate}})</h6>
+                    <h6 class="my-3">Best Economy: {{best_economy.name}}({{best_economy.economy}})</h6>
                 </div>
             </div>
         </div>
@@ -27,7 +28,6 @@
                 <thead class="bg-dark text-success">
                     <tr>
                         <th>Name</th>
-                        <th>Role</th>
                         <th>Innings</th>
                         <th>Batting</th>
                         <th>Runs</th>
@@ -35,13 +35,13 @@
                         <th>Bowling</th>
                         <th>Wickets</th>
                         <th>Economy</th>
+                        <th>View</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for player in profiles %}
                         <tr>
                             <td>{{player.name}}</td>
-                            <td>{{player.role}}</td>
                             <td>{{player.innings}}</td>
                             <td>{{player.bat_style}}</td>
                             <td>{{player.runs}}</td>
@@ -49,6 +49,7 @@
                             <td>{{player.bowl_style}}</td>
                             <td>{{player.wickets}}</td>
                             <td>{{player.economy}}</td>
+                            <td><a href="{% url 'user:player_profile' player.id %}" class="btn btn-sm btn-outline-info">Stats</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

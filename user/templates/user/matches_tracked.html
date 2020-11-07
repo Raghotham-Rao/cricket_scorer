@@ -52,7 +52,7 @@
                             {% if match.result in 'In Progress' %}
                                 <td><a href="{% url 'user:track_match' match.id %}" class="btn btn-sm btn-outline-info">Continue</a></td>
                             {% else %}
-                                <td><a href="#" class="btn btn-sm btn-outline-success">Summary</a></td>
+                                <td><a href="{% url 'user:match_stats' match.id %}" class="btn btn-sm btn-outline-success">Summary</a></td>
                             {% endif %}
                         </tr>
                     {% endfor %}

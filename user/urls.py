@@ -11,4 +11,7 @@ urlpatterns = [
     path('match_details/', views.match_details, name="match_details"),
     path('tracked_matches/', views.tracked_matches, name="tracked_matches"),
     path('update_score/', views.update_score, name="update_score"),
+    path('player_profile/<int:player_id>/', views.player_profile, name="player_profile"),
+    path('end_match/<int:match_id>/', views.end_match, name="end_match"),
+    path('match_stats/<int:match_id>/', views.match_stats, name="match_stats"),
 ]

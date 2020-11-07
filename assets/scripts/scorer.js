@@ -31,11 +31,12 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
     data['bowler'] = bowler;
     data['player_dismissed'] = (is_wicket)?batsmen[document.getElementById("player_dismissed").value]:null;
     if(is_wicket && ["Caught", "Runout", "Stumped"].includes(data['dismissal_kind'])){
-        data['fielder'] = document.getElementById("fielder");
+        data['fielder'] = document.getElementById("fielder").value;
     }
     else{
         data['fielder'] = null;
     }
+    // data['fielder'] = null;
     data['total_runs'] = parseInt(data['batsman_runs']) + ((data['is_wide'] || data['is_no_ball'])?1:0);
     // console.log(data);
     $.post('http://localhost:8000/user/update_score/', data,

@@ -1,0 +1,56 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+
+    {% load static %}
+    <script src="{% static 'scripts/Chart.min.js' %}"></script>
+
+    <input type="hidden" id="runs_scored_per_match" value="{{runs_scored_per_match}}">
+    <input type="hidden" id="run_distribution" value="{{run_distribution}}">
+    <input type="hidden" id="economy_per_match" value="{{economy}}">
+
+    <div class="row mt-3 mx-1 mb-0">
+        <div class="col-10">
+            <h3 class="text-success">{{name}}</h3>
+        </div>
+        <div class="col-2 text-right pt-2">
+            <button class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#addPlayerModal"><small><span class="fas fa-plus"></span> </small><span class="font-weight-bold d-none d-lg-inline">Add</span></button>
+        </div>
+    </div>
+    <hr class="mx-3 mt-0">
+    <div class="row mx-1">
+        <div class="col-sm-3 my-2">
+            <div class="card bg-dark shadow-card">
+                <div class="card-body text-success">
+                    <h6>Total Runs: {{total_runs}}</h6>
+                    <h6>Average: {{average}}</h6>
+                    <h6>Strike Rate: {{strike_rate}}</h6>
+                    <h6>High Score: {{high_score}}</h6>
+                    <h6>Fours: {{fours}}</h6>
+                    <h6>Sixes: {{sixes}}</h6>
+                    <h6>Economy: {{overall_economy}}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9 my-2">
+            <div class="nav nav-tabs" id="tab_bar">
+                <li class="nav-item nav-link text-success active" id="batting_tab">Batting</li>
+                <li class="nav-item nav-link text-success" id="scores_tab">Scores</li>
+                <li class="nav-item nav-link text-success" id="run_dist_tab">Run Distribution</li>
+                <li class="nav-item nav-link text-success" id="bowling_tab">Bowling</li>
+                <li class="nav-item nav-link text-success" id="econ_tab">Economy</li>
+                <li class="nav-item nav-link text-success" id="run_dist_tab2">Run Distribution</li>
+            </div>
+            <div class="chart_container mx-auto mt-3 d-none" style="position: relative; width: 90%; height: 50vh;">
+                <canvas id="line_chart_area" class="bg-dark rounded p-3 d-none chart-area"></canvas>
+                <canvas id="pie_chart_area" class="bg-dark rounded p-3 d-none chart-area"></canvas>
+                <canvas id="econ_chart_area" class="bg-dark rounded p-3 d-none chart-area"></canvas>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{% static 'scripts/update_chart.js' %}"></script>
+
+{% endblock %}
