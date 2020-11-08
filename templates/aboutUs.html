@@ -1,14 +1,10 @@
 {% extends 'base_template.html' %}
 
 {% block content %}
-    <div class="row m-3">
-        <h1 class="display-4">About Us</h1>
-    </div>
-    <hr>
 
-    <div class="row m-1">
-        <div class="col-lg-8  text-justify" id="aboutUs">
-            <p>
+    <div class="row mt-5">
+        <div class="col-lg-8  text-center" id="aboutUs">
+            <!-- <p>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. At amet blanditiis labore aliquid, rem inventore distinctio eaque. Itaque nisi iure nam soluta pariatur ex, fugit ipsam blanditiis sequi totam eveniet.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt commodi itaque quae consequuntur animi reprehenderit doloribus tempore quia voluptates qui veritatis, mollitia autem, deserunt ipsum hic natus voluptatibus distinctio praesentium.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius debitis et culpa dolores laboriosam aperiam consequatur dolorem, aspernatur vel animi in sint tempore ex est voluptate, ut aliquam quae quis!
@@ -20,10 +16,14 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt commodi itaque quae consequuntur animi reprehenderit doloribus tempore quia voluptates qui veritatis, mollitia autem, deserunt ipsum hic natus voluptatibus distinctio praesentium.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum dolore voluptas vitae quasi pariatur delectus, et minima cum quidem perferendis debitis asperiores deserunt minus possimus accusantium ad labore sequi illo.
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus accusantium quam molestias veniam dolore omnis, vel tempore accusamus animi quisquam fuga fugit, explicabo facere ex sapiente vitae ea perspiciatis ducimus?
-            </p>
+            </p> -->
+            {% load static %}
+            <div>
+                <img src="{% static 'images/illus_chart.svg' %}" class="w-75" alt="" srcset="">
+            </div>
         </div>
         <div class="col-lg-4 ">
-            <div class="card bg-dark" id="login_card">
+            <div class="card bg-dark mt-3" id="login_card">
                 <div class="m-auto">
                     <a href="/login" class="btn btn-outline-success text-white p-2">Log In</a>
                     <hr class="text-light">

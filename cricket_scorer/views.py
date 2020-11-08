@@ -6,8 +6,6 @@ from django.contrib.auth import login, logout
 
 # Create your views here.
 def index(request):
-    if request.user:
-        return redirect('user:dashboard')
     return render(request, 'aboutUs.html')
 
 

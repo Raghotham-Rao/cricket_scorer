@@ -7,27 +7,23 @@
 
     <input type="hidden" id="innings1_runs" value="{{innings1_runs}}">
     <input type="hidden" id="innings2_runs" value="{{innings2_runs}}">
+    <input type="hidden" id="run_dist1" value="{{run_dist1}}">
+    <input type="hidden" id="run_dist2" value="{{run_dist2}}">
+    <input type="hidden" id="runs_per_over2" value="{{runs_per_over2}}">
+    <input type="hidden" id="runs_per_over1" value="{{runs_per_over1}}">
 
     <div class="row mt-3 mx-1 mb-0">
         <div class="col-10">
-            <h3 class="text-success">{{name}}</h3>
-        </div>
-        <div class="col-2 text-right pt-2">
-            <button class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#addPlayerModal"><small><span class="fas fa-plus"></span> </small><span class="font-weight-bold d-none d-lg-inline">Add</span></button>
+            <h3 class="text-success">Match#{{match_id}}</h3>
         </div>
     </div>
     <hr class="mx-3 mt-0">
     <div class="row mx-1">
         <div class="col-sm-3 my-2">
-            <div class="card bg-dark shadow-card">
+            <div class="card bg-dark shadow-card py-3">
                 <div class="card-body text-success">
-                    <h6>Total Runs: {{total_runs}}</h6>
-                    <h6>Average: {{average}}</h6>
-                    <h6>Strike Rate: {{strike_rate}}</h6>
-                    <h6>High Score: {{high_score}}</h6>
-                    <h6>Fours: {{fours}}</h6>
-                    <h6>Sixes: {{sixes}}</h6>
-                    <h6>Economy: {{overall_economy}}</h6>
+                    <h4 class="mt-1 mb-3">Team 1: {{team1_score}}/{{wickets1}} ({{overs1}})</h4>
+                    <h4 class="my-3">Team 2: {{team2_score}}/{{wickets2}} ({{overs2}})</h4>
                 </div>
             </div>
         </div>
@@ -35,13 +31,80 @@
         <div class="col-sm-9 my-2">
             <div class="nav nav-tabs" id="tab_bar">
                 <li class="nav-item nav-link text-success active" id="batting_tab">Batting</li>
+                <li class="nav-item nav-link text-success" id="bowling_tab">Bowling</li>
                 <li class="nav-item nav-link text-success" id="scores_tab">Scores</li>
                 <li class="nav-item nav-link text-success" id="run_dist_tab">Run Distribution</li>
-                <li class="nav-item nav-link text-success" id="bowling_tab">Bowling</li>
-                <li class="nav-item nav-link text-success" id="econ_tab">Economy</li>
-                <li class="nav-item nav-link text-success" id="run_dist_tab2">Run Distribution</li>
+                <li class="nav-item nav-link text-success" id="econ_tab">Progress</li>
             </div>
-            <div class="chart_container mx-auto mt-3 d-none" style="position: relative; width: 90%; height: 50vh;">
+            <div id="batting_scorecard_container" class="scorecard_container p-3 containers">
+                <h4 class="text-success text-center">Team - 1</h4>
+                <div class="row bg-dark text-success p-3">
+                    <div class="col-8">
+                        <span class="font-weight-bold align-middle">Batsman</span>
+                    </div>
+                    <div class="col-4">
+                        <span class="font-weight-bold align-middle">Runs</span>
+                    </div>
+                </div>
+                {% for i in batsmen_inning1 %}
+                    <div class="row my-3">
+                        <div class="col-8">{{i.strike}}</div>
+                        <div class="col-4">{{i.batsman_runs__sum}}({{i.ball_id__count}})</div>
+                    </div>
+                {% endfor %}
+
+                <h4 class="text-success text-center">Team - 2</h4>
+                <div class="row bg-dark text-success p-3">
+                    <div class="col-8">
+                        <span class="font-weight-bold align-middle">Batsman</span>
+                    </div>
+                    <div class="col-4">
+                        <span class="font-weight-bold align-middle">Runs</span>
+                    </div>
+                </div>
+                {% for i in batsmen_inning2 %}
+                    <div class="row my-3">
+                        <div class="col-8">{{i.strike}}</div>
+                        <div class="col-4">{{i.batsman_runs__sum}}({{i.ball_id__count}})</div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="bowling_scorecard_container" class="scorecard_container p-3 d-none containers">
+                <h4 class="text-success text-center">Team - 1</h4>
+                <div class="row bg-dark text-success p-3">
+                    <div class="col-8">
+                        <span class="font-weight-bold align-middle">Bowler</span>
+                    </div>
+                    <div class="col-4">
+                        <span class="font-weight-bold align-middle">ovs-runs-wkts</span>
+                    </div>
+                </div>
+                {% for i in bowlers_innings1 %}
+                    <div class="row my-3">
+                        <div class="col-8">{{i.name}}</div>
+                        <div class="col-4">{{i.overs}} - {{i.runs_conceded}} - {{i.wickets}}</div>
+                    </div>
+                {% endfor %}
+
+                <h4 class="text-success text-center">Team - 2</h4>
+                <div class="row bg-dark text-success p-3">
+                    <div class="col-8">
+                        <span class="font-weight-bold align-middle">Bowler</span>
+                    </div>
+                    <div class="col-4">
+                        <span class="font-weight-bold align-middle">ovs-runs-wkts</span>
+                    </div>
+                </div>
+                {% for i in bowlers_innings2 %}
+                    <div class="row my-3">
+                        <div class="col-8">{{i.name}}</div>
+                        <div class="col-4">{{i.overs}} - {{i.runs_conceded}} - {{i.wickets}}</div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="chart_container mx-auto mt-3 d-none containers" style="position: relative; width: 95%; height: 50vh;">
                 <canvas id="line_chart_area" class="bg-dark rounded p-3 d-none chart-area"></canvas>
                 <canvas id="pie_chart_area" class="bg-dark rounded p-3 d-none chart-area"></canvas>
                 <canvas id="econ_chart_area" class="bg-dark rounded p-3 d-none chart-area"></canvas>
@@ -49,7 +112,7 @@
 
         </div>
     </div>
-
+    <!-- <p>{{run_dist1}}</p> -->
     <script src="{% static 'scripts/update_match_chart.js' %}"></script>
 
 {% endblock %}

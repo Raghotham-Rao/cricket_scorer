@@ -5,11 +5,20 @@ var econ = document.getElementById('econ_chart_area');
 $(".nav-item.nav-link.text-success").on('click', (event) => {
     $(".nav-item.nav-link.text-success").removeClass('active');
     $(event.target).addClass('active');
-    $(".chart-area").addClass('d-none');
+    $(".containers").addClass('d-none');
+});
+
+$("#batting_tab").on('click', (event) => {
+    $("#batting_scorecard_container").removeClass('d-none');
+});
+
+$("#bowling_tab").on('click', (event) => {
+    $("#bowling_scorecard_container").removeClass('d-none');
 });
 
 $("#scores_tab").on('click', (event) => {
     $(".chart_container").removeClass("d-none");
+    $(".chart-area").addClass("d-none");
     line.classList.remove('d-none');
     var linear_data = document.getElementById("runs_scored_per_match").value.split(', ');
     var labels = [];
@@ -53,6 +62,7 @@ $("#scores_tab").on('click', (event) => {
 
 $("#econ_tab").on('click', (event) => {
     $(".chart_container").removeClass("d-none");
+    $(".chart-area").addClass("d-none");
     line.classList.remove('d-none');
     var econ_data = document.getElementById("economy_per_match").value.split(', ');
     var labels = [];
@@ -96,6 +106,7 @@ $("#econ_tab").on('click', (event) => {
 
 $("#run_dist_tab").on('click', (event) => {
     $(".chart_container").removeClass("d-none");
+    $(".chart-area").addClass("d-none");
     pie.classList.remove('d-none');
     var myChart = new Chart(pie, {
         type: 'doughnut',

@@ -161,18 +161,54 @@ def player_profile(request, player_id):
     player_name = models.Player.objects.filter(pool_admin=request.user, id=player_id).values_list('name', flat=True)[0]
     matches = models.Match.objects.filter(pool_admin=request.user).values_list('id', flat=True)
     all_balls_faced = models.ByBallStat.objects.filter(strike=player_name).all()
+    performances = {}
     runs_scored_per_match = list(map(lambda x: str(x['batsman_runs__sum']), all_balls_faced.values('match_id').annotate(Sum('batsman_runs'))))
+    for match in all_balls_faced.exclude(is_wide=True).values('match_id').annotate(Count('ball_id'), Sum('batsman_runs')):
+        performances[match['match_id']] = {}
+        performances[match['match_id']]['match_id'] = match['match_id']
+        performances[match['match_id']]['runs'] = match['batsman_runs__sum']
+        performances[match['match_id']]['balls_faced'] = match['ball_id__count']
+        performances[match['match_id']]['fours'] = 0
+        performances[match['match_id']]['sixes'] = 0
+        performances[match['match_id']]['strike_rate'] = round(performances[match['match_id']]['runs'] * 100 / performances[match['match_id']]['balls_faced'], 2) if performances[match['match_id']]['balls_faced'] > 0 else 0.0
+    
+    for match in all_balls_faced.exclude(is_wide=True).filter(batsman_runs=4).values('match_id').annotate(Count('ball_id')):
+        performances[match['match_id']]['fours'] = match['ball_id__count']
+
+    for match in all_balls_faced.exclude(is_wide=True).filter(batsman_runs=6).values('match_id').annotate(Count('ball_id')):
+        performances[match['match_id']]['sixes'] = match['ball_id__count']
+    
+    performances = list(performances.values())
+
     run_distribution = []
     for i in range(7):
         run_distribution.append(str(all_balls_faced.filter(batsman_runs=i).count()))
     run_distribution = ', '.join(run_distribution)
 
     total_runs = sum(all_balls_faced.values_list('batsman_runs', flat=True))
-    out_times = models.ByBallStat.objects.filter(player_dismissed='player_name').values_list('ball_id', flat=True).count()
+    out_times = models.ByBallStat.objects.filter(player_dismissed=player_name).values_list('ball_id', flat=True).count()
     average = round(total_runs / out_times, 2) if out_times > 0 else 'na'
     strike_rate = round(total_runs * 100 / all_balls_faced.count(), 2) if all_balls_faced.count() > 0 else 0.0
 
     all_balls_bowled = models.ByBallStat.objects.filter(bowler=player_name).all()
+    
+    bowling_performances = {}
+    for d in all_balls_bowled.values('match_id').annotate(Sum('total_runs')):
+        bowling_performances[d['match_id']] = dict()
+        bowling_performances[d['match_id']]['match_id'] = d['match_id']
+        bowling_performances[d['match_id']]['runs'] = d['total_runs__sum']
+        bowling_performances[d['match_id']]['overs'] = '0.0'
+        bowling_performances[d['match_id']]['wickets'] = 0
+    
+    for d in all_balls_bowled.exclude(is_wide=True, is_no_ball=True).values('match_id').annotate(Count('ball_id')):
+        bowling_performances[d['match_id']]['overs'] = str(d['ball_id__count'] // 6) + '.' + str(d['ball_id__count'] % 6)
+        bowling_performances[d['match_id']]['economy'] = round(bowling_performances[d['match_id']]['runs'] / (d['ball_id__count'] / 6), 2) if d['ball_id__count'] > 0 else 0.0
+
+    for d in all_balls_bowled.filter(player_dismissed="").exclude(dismissal_kind='Runout').values('match_id').annotate(Count('player_dismissed')):
+        bowling_performances[d['match_id']]['wickets'] = d['player_dismissed__count']
+
+    bowling_performances = list(bowling_performances.values())
+
     runs_conceded_per_match = [i['total_runs__sum'] for i in all_balls_bowled.values('match_id').annotate(Sum('total_runs'))]
     legal_balls_per_macth = all_balls_bowled.exclude(is_wide=True, is_no_ball=True).values('match_id').annotate(Count('ball_id')).values_list('ball_id__count', flat=True)
     economy = 'na'
@@ -186,11 +222,11 @@ def player_profile(request, player_id):
                 economy.append(0)
 
         overall_economy = round(sum(runs_conceded_per_match) / (sum(legal_balls_per_macth) / 6), 2)
-            
-    # return HttpResponse(all_balls_faced.filter(batsman_runs=0).count())
+
     data = {
         'name': player_name,
-        'runs_scored_per_match': ', '.join(runs_scored_per_match), 
+        'runs_scored_per_match': ', '.join(runs_scored_per_match),
+        'performances': performances,
         'run_distribution': run_distribution, 
         'total_runs': total_runs, 
         'average': average,
@@ -200,6 +236,7 @@ def player_profile(request, player_id):
         'sixes': all_balls_faced.filter(batsman_runs=6).count,
         'economy': ', '.join(list(map(str, economy))),
         'overall_economy': overall_economy,
+        'bowling_performances': bowling_performances
     }
     return render(request, 'user/player_profile.html', data)
 
@@ -209,13 +246,70 @@ def match_stats(request, match_id):
     match_balls = models.ByBallStat.objects.filter(match_id=match_id).all()
     innings_1 = list(match_balls.filter(inning=1).values_list('total_runs', flat=True))
     innings_2 = list(match_balls.filter(inning=2).values_list('total_runs', flat=True))
+
+    batsmen_inning1 = match_balls.filter(inning=1).values('strike').annotate(Sum('batsman_runs'), Count('ball_id'))
+    batsmen_inning2 = match_balls.filter(inning=2).values('strike').annotate(Sum('batsman_runs'), Count('ball_id'))
+
+    wickets = [0, 0]
+
+    bowlers1 = dict()
+    for d in match_balls.filter(inning=1).values('bowler').annotate(Sum('total_runs')):
+        bowlers1[d['bowler']] = {}
+        bowlers1[d['bowler']]['name'] = d['bowler']
+        bowlers1[d['bowler']]['runs_conceded'] = d['total_runs__sum']
+        bowlers1[d['bowler']]['wickets'] = 0
+
+    for d in match_balls.filter(inning=1).exclude(player_dismissed='').exclude(dismissal_kind='Runout').values('bowler').annotate(Count('ball_id')):
+        bowlers1[d['bowler']]['wickets'] = d['ball_id__count']
+        wickets[0] += 1
+    
+    for d in match_balls.filter(inning=1).exclude(is_wide=True, is_no_ball=True).values('bowler').annotate(Count('ball_id')):
+        bowlers1[d['bowler']]['overs'] = str(d['ball_id__count'] // 6) + '.' + str(d['ball_id__count'] % 6)
+
+    bowlers2 = dict()
+    for d in match_balls.filter(inning=2).values('bowler').annotate(Sum('total_runs')):
+        bowlers2[d['bowler']] = {}
+        bowlers2[d['bowler']]['name'] = d['bowler']
+        bowlers2[d['bowler']]['runs_conceded'] = d['total_runs__sum']
+        bowlers2[d['bowler']]['wickets'] = 0
+
+    for d in match_balls.filter(inning=2).exclude(player_dismissed='').exclude(dismissal_kind='Runout').values('bowler').annotate(Count('ball_id')):
+        bowlers2[d['bowler']]['wickets'] = d['ball_id__count']
+        wickets[1] += 1
+    
+    for d in match_balls.filter(inning=2).exclude(is_wide=True, is_no_ball=True).values('bowler').annotate(Count('ball_id')):
+        bowlers2[d['bowler']]['overs'] = str(d['ball_id__count'] // 6) + '.' + str(d['ball_id__count'] % 6)
+
     for i in range(1, len(innings_1)):
         innings_1[i] += innings_1[i-1]
     for i in range(1, len(innings_2)):
         innings_2[i] += innings_2[i-1]
+
+    run_dist1 = match_balls.filter(inning=1).values('batsman_runs').annotate(Count('ball_id')).values_list('ball_id__count', flat=True)
+    run_dist2 = match_balls.filter(inning=2).values('batsman_runs').annotate(Count('ball_id')).values_list('ball_id__count', flat=True)
+
+    runs_per_over1 = match_balls.filter(inning=1).values('over').annotate(Sum('total_runs')).values_list('total_runs__sum', flat=True)
+    runs_per_over2 = match_balls.filter(inning=2).values('over').annotate(Sum('total_runs')).values_list('total_runs__sum', flat=True)
+
+
     data = {
+        'match_id': match_id,
         'innings1_runs': ', '.join(list(map(str, innings_1))),
         'innings2_runs': ', '.join(list(map(str, innings_2))),
+        'batsmen_inning1': batsmen_inning1,
+        'batsmen_inning2': batsmen_inning2,
+        'bowlers_innings1': list(bowlers1.values()),
+        'bowlers_innings2': list(bowlers2.values()),
+        'run_dist1': ', '.join(map(str, run_dist1)),
+        'run_dist2': ', '.join(map(str, run_dist2)),
+        'runs_per_over1': ', '.join(map(str, runs_per_over1)),
+        'runs_per_over2': ', '.join(map(str, runs_per_over2)),
+        'team1_score': sum(runs_per_over1),
+        'team2_score': sum(runs_per_over2),
+        'wickets1': wickets[0],
+        'wickets2': wickets[1],
+        'overs1': str(len(innings_1) // 6) + '.' + str(len(innings_1) % 6),
+        'overs2': str(len(innings_2) // 6) + '.' + str(len(innings_2) % 6),
     }
     return render(request, 'user/match_stats.html', data)
 
