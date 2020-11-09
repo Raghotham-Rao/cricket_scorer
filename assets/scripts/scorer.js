@@ -29,7 +29,7 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
     data['strike'] = batsmen[strike];
     data['non_strike'] = batsmen[(strike + 1) % 2];
     data['bowler'] = bowler;
-    data['player_dismissed'] = (is_wicket)?batsmen[document.getElementById("player_dismissed").value]:null;
+    data['player_dismissed'] = (is_wicket)?batsmen[(parseInt(document.getElementById("player_dismissed").value) + strike) % 2]:null;
     if(is_wicket && ["Caught", "Runout", "Stumped"].includes(data['dismissal_kind'])){
         data['fielder'] = document.getElementById("fielder").value;
     }
@@ -48,6 +48,13 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
             wickets += (ips['is_wicket'].checked)?1:0;
             $('#tscore_' + inning).html(score + '/' + wickets);
             $("#overs_" + inning).html(over + '.' + ball);
+
+            // wicket
+            if(ips['is_wicket'].checked && wickets < players_per_team){
+                new_batsman_at = (parseInt(document.getElementById("player_dismissed").value) + strike) % 2;
+                $('#new-batsman-modal').modal('show');
+            }
+
             if(data['batsman_runs'] % 2 == 1){
                 changeStrike();
             }
@@ -56,12 +63,6 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
             if(ball == 0 && !(ips['is_wide'].checked || ips['is_no_ball'].checked) && !(over == match_length || wickets == players_per_team)){
                 changeStrike();
                 $('#bowler-modal').modal('show');
-            }
-
-            // wicket
-            if(ips['is_wicket'].checked && wickets < players_per_team){
-                new_batsman_at = parseInt(document.getElementById("player_dismissed").value);
-                $('#new-batsman-modal').modal('show');
             }
 
             if(inning == 2 && score >= target){
@@ -85,6 +86,7 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
                 score = 0;
                 runs_remaining = target;
                 balls_remaining = match_length * 6;
+                strike = 0;
                 $('#batsmen-modal').modal('show');
                 updateEquation();
             }
@@ -113,7 +115,8 @@ document.querySelector("#new-batsman-form").addEventListener('submit', (event) =
     event.preventDefault();
     batsmen[new_batsman_at] = event.target["new_batsman"].value;
     $("#new-batsman-modal").modal('hide');
-    changeStrike();
+    $("#strike_batsman").html(batsmen[strike]);
+    // changeStrike();
 });
 
 

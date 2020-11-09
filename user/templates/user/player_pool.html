@@ -1,6 +1,9 @@
 {% extends 'base_template.html' %}
 
 {% block content %}
+
+{% load static %}
+
     <div class="row mt-3 mx-1 mb-0">
         <div class="col-10">
             <h3 class="text-success">Player Pool</h3>
@@ -11,19 +14,8 @@
     </div>
     <hr class="mx-3 mt-0">
     <div class="row mx-1">
-        <div class="col-sm-3 my-2">
-            <div class="card bg-dark shadow-card">
-                <div class="card-body text-success">
-                    <h6>Players in pool: {{player_count}}</h6>
-                    <h6 class="my-3">Highest Run Scorer: {{highest_run_scorer.name}}({{highest_run_scorer.runs}})</h6>
-                    <h6 class="my-3">Highest Wicket Taker: {{highest_wicket_taker.name}}({{highest_wicket_taker.wickets}})</h6>
-                    <h6 class="my-3">Best Strike Rate: {{best_strike_rate.name}}({{best_strike_rate.strike_rate}})</h6>
-                    <h6 class="my-3">Best Economy: {{best_economy.name}}({{best_economy.economy}})</h6>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-sm-9 my-2">
+        <div class="col-sm-8 my-2">
             <table class="table table-striped table-responsive">
                 <thead class="bg-dark text-success">
                     <tr>
@@ -55,6 +47,19 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="col-sm-4 my-2">
+            <div class="card bg-dark shadow-card">
+                <div class="card-body text-success">
+                    <h6>Players in pool: {{player_count}}</h6>
+                    <h6 class="my-3">Highest Run Scorer: {{highest_run_scorer.name}}({{highest_run_scorer.runs}})</h6>
+                    <h6 class="my-3">Highest Wicket Taker: {{highest_wicket_taker.name}}({{highest_wicket_taker.wickets}})</h6>
+                    <h6 class="my-3">Best Strike Rate: {{best_strike_rate.name}}({{best_strike_rate.strike_rate}})</h6>
+                    <h6 class="my-3">Best Economy: {{best_economy.name}}({{best_economy.economy}})</h6>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="modal" id="addPlayerModal">

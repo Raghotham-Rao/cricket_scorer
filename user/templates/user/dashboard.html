@@ -5,20 +5,10 @@
         <h3 class="text-success">Hey There {{request.user}}!</h3>
     </div>
     <hr class="mx-3 mt-0">
-    <div class="row mx-1">
-        <div class="col-sm-3">
-            <div class="card bg-dark shadow-card">
-                <div class="card-body text-success text-justify">
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati repellat enim quaerat dicta inventore possimus, fugit voluptas molestiae dolorum iure, perspiciatis architecto maxime eius sequi quos, ex magnam dolores unde!
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae, nihil esse odio repellendus, nemo odit tempora doloremque facilis recusandae corporis asperiores iure et voluptas quibusdam doloribus mollitia quidem tempore provident.
-                    </p>
-                </div>
-            </div>
-        </div>
+    <div class="row mx-1 mt-4">
 
-        <div class="col-sm-9">
-            <div class="card border rounded my-2 shadow-card">
+        <div class="col-sm-8">
+            <div class="card border rounded mt-2 mb-5 shadow-card">
                 <div class="card-header text-success">
                     <div class="row">
                         <div class="col-xl-9 col-lg-6 col-md-6">
@@ -36,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="card border rounded my-2 shadow-card">
+            <div class="card border rounded my-5 shadow-card">
                 <div class="card-header text-success">
                     <div class="row">
                         <div class="col-xl-9 col-lg-6 col-md-6">
@@ -54,9 +44,14 @@
                 </div>
             </div>
 
-            <div class="text-center mt-5">
+            <div class="text-center my-5">
                 <a href="{% url 'user:match_details' %}" class="btn btn-large btn-outline-success"> <span class="fas fa-plus"></span> Track New Match</a>
             </div>
+        </div>
+
+        <div class="col-sm-4">
+            {% load static %}
+            <img src="{% static 'images/dashboard_illus.svg' %}" alt="" style="width: 95%;">
         </div>
     </div>
 {% endblock %}

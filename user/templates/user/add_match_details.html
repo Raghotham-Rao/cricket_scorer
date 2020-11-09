@@ -2,22 +2,31 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-sm-6 mt-3 mx-auto">
-            <div class="card">
-                <div class="card-header bg-dark text-center">
-                    <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
-                </div>
+{% load static %}
+
+    <div class="container mt-5">
+        <div class="row">
     
-                <form action="" method="post" id="match-form">
-                    {% csrf_token %}
-                    <div class="card-body">
-                        {{match_form}}
+            <div class="col-sm-5">
+                <div class="card">
+                    <div class="card-header bg-dark text-center">
+                        <h4 class="text-success font-weight-bold mt-1">Add Match Details</h4>
                     </div>
-                    <div class="card-footer text-center">
-                        <button type="submit" class="btn btn-outline-success">Start Match</button>
-                    </div>
-                </form>
+        
+                    <form action="" method="post" id="match-form">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            {{match_form}}
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-outline-success">Start Match</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-sm-7 text-center">
+                <img src="{% static 'images/add_match_details_illus.svg' %}" style="width: 70%; margin-top: 5vw;" alt="">
             </div>
         </div>
     </div>

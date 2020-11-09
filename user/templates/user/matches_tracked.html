@@ -56,6 +56,9 @@
                             {% endif %}
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td colspan="9" class="bg-dark text-center"><a href="{% url 'user:match_details' %}" class="btn btn-outline-success btn-sm"><span class="fas fa-plus align-middle"></span> New Match</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

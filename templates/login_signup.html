@@ -2,42 +2,48 @@
 
 {% block content %}
 
-    <div class="row mt-5">
-        <!-- <div class="col-sm-4"></div> -->
-        <div class="col-sm-4 m-auto">
-            <div class="card" id="login_signup_form">
-                <div class="card-header p-0">
-                    <ul class="nav nav-pills nav-justified">
-                        <li class="nav-item nav-link bg-success py-3" onclick="change_tab(1)">
-                            Login
-                        </li>
-                        <li class="nav-item nav-link bg-dark py-3" onclick="change_tab(2)">
-                            Register
-                        </li>
-                    </ul>
-                </div>
-        
-                <div class="card-body bg-dark text-light">
-                    <form action="/login/" method="post" id="form-1">
-                        {% csrf_token %}
-                        {{form1}}
-                        <div class="mb-3 text-right">
-                            <a class="text-success" href="#">Forgot Password?</a>
-                        </div>
-                        {% if request.GET.next %}
-                            <input type="hidden" name="next" value="{{request.GET.next}}">
-                        {% endif %}
-                        <button type="submit" class="btn btn-large bg-success text-light mb-3 auth-submit-btn">Log In</button>
-                    </form>
+{% load static %}
 
-                    <form action="/signup/" method="post" id="form-2">
-                        {% csrf_token %}
-                        {{form2}}
-                        {% if request.GET.next %}
-                            <input type="hidden" name="next" value="{{request.GET.next}}">
-                        {% endif %}
-                        <button type="submit" class="btn btn-large bg-success text-light mb-3 auth-submit-btn">Sign Up</button>
-                    </form>
+    <div class="container" style="margin-top: 6.5vw;">
+        <div class="row">
+            <div class="col-lg-8 text-center my-4">
+                <img src="{% static 'images/login_illus.svg' %}" style="width: 65%;" alt="">
+            </div>
+            <div class="col-lg-4">
+                <div class="card" id="login_signup_form">
+                    <div class="card-header p-0">
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="nav-item nav-link bg-success py-3" onclick="change_tab(1)">
+                                Login
+                            </li>
+                            <li class="nav-item nav-link bg-dark py-3" onclick="change_tab(2)">
+                                Register
+                            </li>
+                        </ul>
+                    </div>
+            
+                    <div class="card-body bg-dark text-light">
+                        <form action="/login/" method="post" id="form-1">
+                            {% csrf_token %}
+                            {{form1}}
+                            <div class="mb-3 text-right">
+                                <a class="text-success" href="#">Forgot Password?</a>
+                            </div>
+                            {% if request.GET.next %}
+                                <input type="hidden" name="next" value="{{request.GET.next}}">
+                            {% endif %}
+                            <button type="submit" class="btn btn-large btn-outline-success text-light mb-3 auth-submit-btn">Log In</button>
+                        </form>
+    
+                        <form action="/signup/" method="post" id="form-2">
+                            {% csrf_token %}
+                            {{form2}}
+                            {% if request.GET.next %}
+                                <input type="hidden" name="next" value="{{request.GET.next}}">
+                            {% endif %}
+                            <button type="submit" class="btn btn-large btn-outline-success text-light mb-3 auth-submit-btn">Sign Up</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

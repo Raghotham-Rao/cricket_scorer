@@ -39,7 +39,16 @@ if(is_old){
         balls_remaining = (match_length * 6) - (over * 6 + ball);
         $("#equation").html("Need " + runs_remaining + " runs off " + balls_remaining + " balls.");
     }
-    if((parseInt(getValueOfHidden("overs_done1")) == match_length || getValueOfHidden("team1_wickets") == players_per_team) && parseInt(getValueOfHidden("overs_done2")) == 0){
+    if((parseInt(getValueOfHidden("overs_done1")) == match_length || getValueOfHidden("team1_wickets") == players_per_team) && (parseInt(getValueOfHidden("overs_done2")) == 0 && parseInt(getValueOfHidden("balls_done2")) == 0)){
+        inning = 2;
+        target = score + 1;
+        over = 0;
+        ball = 0;
+        wickets = 0;
+        score = 0;
+        runs_remaining = target;
+        balls_remaining = match_length * 6;
+        strike = 0;
         $('#batsmen-modal').modal('show');
     }
 }

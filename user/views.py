@@ -101,7 +101,7 @@ def match_details(request):
 
 @login_required(login_url='/login/')
 def tracker(request, match_id):
-    player_pool = models.Player.objects.all().filter(pool_admin=request.user)
+    player_pool = models.Player.objects.all().filter(pool_admin=request.user).order_by('name')
     balls = models.ByBallStat.objects.all().filter(match_id=match_id)
     status = 'new' if balls.count() == 0 else 'old'
     resp_data = dict()
@@ -130,7 +130,7 @@ def tracker(request, match_id):
     resp_data['player_pool'] = player_pool
     resp_data['match_id'] = match_id
     resp_data['status'] = status
-    print(resp_data)
+    # print(resp_data)
     # return HttpResponse(resp_data)
     return render(request, 'user/track_match.html/', resp_data)
 
