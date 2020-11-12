@@ -17,38 +17,37 @@ def index(request):
 def player_pool(request):
     form = forms.AddPlayerForm()
     players = models.Player.objects.all().filter(pool_admin=request.user).order_by('name')
+    match_ids = models.Match.objects.filter(pool_admin=request.user).values_list('id', flat=True)
     names = [i['name'] for i in players.values('name')]
     player_profiles = {player.name: {'id': player.id, 'name': player.name, 'role': player.role, 'innings': 0, 'bat_style': player.bat_style, 'bowl_style': player.bowl_style, 'runs': 0, 'balls_faced': 0, 'wickets': 0, 'balls_bowled': 0} for player in players}
 
-    for row in models.ByBallStat.objects.values('strike').annotate(Sum('batsman_runs')):
-        player_profiles[row['strike']]['runs'] = row['batsman_runs__sum'] 
+    for row in models.ByBallStat.objects.filter(match_id__in=match_ids).values('strike').annotate(Sum('batsman_runs'), Count('ball_id')):
+        player_profiles[row['strike']]['runs'] = row['batsman_runs__sum']
+        player_profiles[row['strike']]['balls_faced'] = row['ball_id__count']
 
-    for row in models.ByBallStat.objects.values('strike').annotate(Count('batsman_runs')):
-        player_profiles[row['strike']]['balls_faced'] = row['batsman_runs__count']
-
-    for row in models.ByBallStat.objects.values('strike').annotate(Count('match_id', distinct=True)):
+    for row in models.ByBallStat.objects.filter(match_id__in=match_ids).values('strike').annotate(Count('match_id', distinct=True)):
         player_profiles[row['strike']]['innings'] = row['match_id__count']
     
-    for row in models.ByBallStat.objects.exclude(player_dismissed="").values('bowler').annotate(Count('player_dismissed')):
+    for row in models.ByBallStat.objects.exclude(player_dismissed="").filter(match_id__in=match_ids).values('bowler').annotate(Count('player_dismissed')):
         player_profiles[row['bowler']]['wickets'] = row['player_dismissed__count']
 
-    for row in models.ByBallStat.objects.values('bowler').annotate(Count('ball_id')):
+    for row in models.ByBallStat.objects.exclude(is_wide=True, is_no_ball=True).filter(match_id__in=match_ids).values('bowler').annotate(Count('ball_id')):
         player_profiles[row['bowler']]['balls_bowled'] = row['ball_id__count']
 
-    for row in models.ByBallStat.objects.values('bowler').annotate(Sum('total_runs')):
+    for row in models.ByBallStat.objects.filter(match_id__in=match_ids).values('bowler').annotate(Sum('total_runs')):
         player_profiles[row['bowler']]['runs_conceded'] = row['total_runs__sum']
 
     player_profiles = [player_profiles[name] for name in player_profiles]
 
-    highest_run_scorer = sorted(player_profiles, key=lambda x: x['runs'], reverse=True)[0]
-    highest_wicket_taker = sorted(player_profiles, key=lambda x: x['wickets'], reverse=True)[0]
+    highest_run_scorer = sorted(player_profiles, key=lambda x: x['runs'], reverse=True)[0] if players.count() > 0 else 'NA'
+    highest_wicket_taker = sorted(player_profiles, key=lambda x: x['wickets'], reverse=True)[0] if players.count() > 0 else 'NA'
 
     for d in player_profiles:
         d['strike_rate'] = round(d['runs'] * 100 / d['balls_faced'], 2) if d['balls_faced'] > 0 else 0.0
         d['economy'] = round(d['runs_conceded'] / (d['balls_bowled'] / 6), 2) if d['balls_bowled'] > 0 else 0.0
 
-    best_strike_rate = sorted(player_profiles, key=lambda x: x['strike_rate'], reverse=True)[0]
-    best_economy = sorted(player_profiles, key=lambda x: x['economy'] if x['economy'] > 0 else 36)[0]
+    best_strike_rate = sorted(player_profiles, key=lambda x: x['strike_rate'], reverse=True)[0] if players.count() > 0 else 'NA'
+    best_economy = sorted(player_profiles, key=lambda x: x['economy'] if x['economy'] > 0 else 36)[0] if players.count() > 0 else 'NA'
     
     return render(request, 'user/player_pool.html', 
     {

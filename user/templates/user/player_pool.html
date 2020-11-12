@@ -31,7 +31,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for player in profiles %}
+
+                    {% if player_count == 0 %}
+
+                        <tr>
+                            <td colspan="9" class="bg-dark text-success text-center">No Data Available</td>
+                        </tr>
+
+                    {% else %}
+                        {% for player in profiles %}
                         <tr>
                             <td>{{player.name}}</td>
                             <td>{{player.innings}}</td>
@@ -43,7 +51,8 @@
                             <td>{{player.economy}}</td>
                             <td><a href="{% url 'user:player_profile' player.id %}" class="btn btn-sm btn-outline-info">Stats</a></td>
                         </tr>
-                    {% endfor %}
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>
