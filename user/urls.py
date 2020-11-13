@@ -14,4 +14,5 @@ urlpatterns = [
     path('player_profile/<int:player_id>/', views.player_profile, name="player_profile"),
     path('end_match/<int:match_id>/', views.end_match, name="end_match"),
     path('match_stats/<int:match_id>/', views.match_stats, name="match_stats"),
+    path('undo/<int:match_id>/', views.undo, name="undo"),
 ]

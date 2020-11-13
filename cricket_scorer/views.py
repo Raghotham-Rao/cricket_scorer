@@ -41,3 +41,6 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return login_view(request)
+
+def walkthrough(request):
+    return render(request, 'walkthrough.html')

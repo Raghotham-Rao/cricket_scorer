@@ -319,3 +319,9 @@ def end_match(request, match_id):
     match.result = "Completed"
     match.save()
     return redirect('user:match_stats', match_id=match_id)
+
+
+@login_required(login_url='/login/')
+def undo(request, match_id):
+    models.ByBallStat.objects.filter(match_id=match_id).last().delete()
+    return redirect('user:track_match', match_id=match_id)
