@@ -21,6 +21,7 @@ function getValueOfHidden(name){
 if(is_old){
     batsmen[0] = getValueOfHidden("batsman_at_0");
     batsmen[1] = getValueOfHidden("batsman_at_1");
+    setOptions();
     bowler = getValueOfHidden("bowler_now");
     inning = parseInt(getValueOfHidden("inning"));
     if(inning == 1){
@@ -98,11 +99,27 @@ var loadModal = (id) => {
     $(id).modal('show');
 }
 
+function setOptions(){
+    var select_elem = document.getElementById("player_dismissed");
+    for(i in select_elem.options){
+        select_elem.remove(i);
+    }
+    var option = document.createElement("option");
+    option.text = batsmen[0];
+    option.value = batsmen[0];
+    select_elem.add(option);
+    var option = document.createElement("option");
+    option.text = batsmen[1];
+    option.value = batsmen[1];
+    select_elem.add(option);
+}
+
 document.getElementById("batsmen-form").addEventListener("submit", (event) => {
     event.preventDefault();
     innings = 1;
     batsmen[0] = event.target["strike_batsman"].value;
     batsmen[1] = event.target["non_strike_batsman"].value;
+    setOptions();
     // document.getElementById("strike_" + innings).innerHTML = batsmen[0];
     // document.getElementById("non_strike_" + innings).innerHTML = batsmen[1];
     $('#batsmen-modal').modal('hide');

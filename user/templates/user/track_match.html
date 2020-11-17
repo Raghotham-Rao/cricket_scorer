@@ -44,22 +44,7 @@
                     <input type="hidden" name="team1_wickets" value={{team1_wickets}}>
                     <input type="hidden" name="team2_wickets" value={{team2_wickets}}>
                 {% endif %}
-                <!-- <table class="table table-sm table-dark text-success mt-3" id="current_batsmen_team1">
-                    <tr>
-                        <th id="strike_1">Batsman 1</th>
-                        <th id="sscore_1">0(0)</th>
-                    </tr>
-                    <tr>
-                        <th id="non_strike_1">Batsman 1</th>
-                        <th id="nsscore_1">0(0)</th>
-                    </tr>
-                </table>
-                <table class="table table-sm table-dark text-success mt-3" id="current_bowler_team1">
-                    <tr>
-                        <th id="bowler_1">Bowler 1</th>
-                        <th id="bfigures_1">0 / 0 (0.0)</th>
-                    </tr>
-                </table> -->
+
             </div>
             <div class="col-6 text-center my-2">
                 <h6 class="font-weight-bold my-2">Team X</h6>
@@ -71,27 +56,12 @@
                     <h1 class="display-4" id="tscore_2">{{team2_score}}/{{team2_wickets}}</h1>
                     <h6 class="font-weight-bold my-2">Overs: <span id="overs_2">{{team2_over}}.{{team2_ball}}</span></h6>
                 {% endif %}
-                <!-- <table class="table table-sm table-dark text-success mt-3" id="current_batsmen_team2">
-                    <tr>
-                        <th id="strike_2">Batsman 1</th>
-                        <th id="sscore_2">0(0)</th>
-                    </tr>
-                    <tr>
-                        <th id="non_strike_2">Batsman 1</th>
-                        <th id="nsscore_2">0(0)</th>
-                    </tr>
-                </table>
-                <table class="table table-sm table-dark text-success mt-3" id="current_bowler_team2">
-                    <tr>
-                        <th id="bowler_2">Bowler 2</th>
-                        <th id="bfigures_2">0 / 0 (0.0)</th>
-                    </tr>
-                </table> -->
+                
             </div>
             <div class="col-12">
                 <div class="row mb-4">
                     <div class="col-5">
-                        <p class="text-center my-2">Strike : <span id="strike_batsman">{{strike}}</span>*</p>        
+                        <p class="text-center my-2">Strike : <span id="strike_batsman">{{strike}}</span>* <button class="btn btn-sm btn-outline-warning p-0 px-1" id="change_batsman_btn">Change</button></p>        
                     </div>
                     <div class="col-7">
                         <p class="text-center my-2">Bowler : <span id="current_bowler">{{bowler}}</span> <button class="btn btn-sm btn-outline-warning p-0 px-1" id="change_bowler_btn">Change</button></p>
@@ -145,9 +115,9 @@
                             <div class="form-group d-none wicket_event">
                                 <label for="player_dismissed">Batsman Dismissed</label>
                                 <select name="player_dismissed" id="player_dismissed">
-                                        <option value=0>Strike Batsman</option>
-                                        <option value=1>Non Striker</option>
-                                    </select>
+                                        <!-- <option value=0>Strike Batsman</option>
+                                        <option value=1>Non Striker</option> -->
+                                </select>
                             </div>
                             <div class="form-group d-none fielder_involved">
                                 <label for="fielder">Fielder or Wicket-Keeper</label>

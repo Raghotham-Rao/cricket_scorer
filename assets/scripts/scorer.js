@@ -29,12 +29,15 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
     data['strike'] = batsmen[strike];
     data['non_strike'] = batsmen[(strike + 1) % 2];
     data['bowler'] = bowler;
-    data['player_dismissed'] = (is_wicket)?batsmen[(parseInt(document.getElementById("player_dismissed").value) + strike) % 2]:null;
+    // data['player_dismissed'] = (is_wicket)?batsmen[(document.getElementById("player_dismissed").selectedIndex + strike) % 2]:null;
     if(is_wicket && ["Caught", "Runout", "Stumped"].includes(data['dismissal_kind'])){
         data['fielder'] = document.getElementById("fielder").value;
+        data['player_dismissed'] = document.getElementById("player_dismissed").value;
+        new_batsman_at = (document.getElementById("player_dismissed").selectedIndex + strike) % 2;
     }
     else{
         data['fielder'] = null;
+        data['player_dismissed'] = null;
     }
     // data['fielder'] = null;
     data['total_runs'] = parseInt(data['batsman_runs']) + ((data['is_wide'] || data['is_no_ball'])?1:0);
@@ -51,7 +54,6 @@ document.querySelector("#scorer_form").addEventListener('submit', (event) => {
 
             // wicket
             if(ips['is_wicket'].checked && wickets < players_per_team){
-                new_batsman_at = (parseInt(document.getElementById("player_dismissed").value) + strike) % 2;
                 $('#new-batsman-modal').modal('show');
             }
 
@@ -129,4 +131,10 @@ document.getElementById("changeStrikeBtn").addEventListener('click', (event) => 
 document.getElementById("change_bowler_btn").addEventListener("click", (event) => {
     event.preventDefault();
     $('#bowler-modal').modal('show');
+});
+
+document.getElementById("change_batsman_btn").addEventListener("click", (event) => {
+    event.preventDefault();
+    new_batsman_at = 0;
+    $('#new-batsman-modal').modal('show');
 });
