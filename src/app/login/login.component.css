@@ -1,0 +1,33 @@
+.my-15 {
+  margin: 15vh auto;
+}
+
+.my-10 {
+  margin: 10vh auto;
+}
+
+.mt-10p {
+  margin-top: 10%;
+}
+
+.mt-5p {
+  margin-top: 5%;
+}
+
+.mb-5p {
+  margin-bottom: 15px;
+}
+
+.card-title {
+  font-weight: normal;
+  font-size: 1.8em;
+}
+
+@media screen and (min-width: 993px) and (max-width: 1024px) {
+  .my-15 {
+    margin: 25vh auto;
+  }
+}
+.m-0p {
+  margin: 0px;
+}
