@@ -1,0 +1,16 @@
+.inner-container{
+    width: 80%;
+    margin: auto;
+}
+
+.my-20p{
+    margin: 20px 0px;
+}
+
+.py-20p{
+    padding: 15px 0px;
+}
+
+.bolder{
+    font-weight: bolder;
+}
