@@ -14,3 +14,7 @@
 .bolder{
     font-weight: bolder;
 }
+
+ul>li{
+    margin: 20px 0px;
+}
